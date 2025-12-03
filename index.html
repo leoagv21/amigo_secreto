@@ -182,6 +182,34 @@
             box-shadow: 0 8px 15px rgba(0,0,0,0.2);
         }
 
+        /* Animación para el botón de formulario */
+        .btn-info {
+            background: linear-gradient(135deg, #9b59b6, #8e44ad);
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-info::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: 0.5s;
+        }
+
+        .btn-info:hover::before {
+            left: 100%;
+        }
+
+        .btn-info:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(155, 89, 182, 0.3);
+        }
+
         /* ÁREA PRINCIPAL CON SCROLL */
         .main-content {
             flex: 1;
@@ -815,17 +843,20 @@
         </div>
         
         <!-- CONTROLES -->
-        <div class="controls">
-            <button class="btn btn-primary" onclick="cargarDatos()">
-                <i class="fas fa-sync-alt"></i> ACTUALIZAR LISTA
-            </button>
-            <button class="btn btn-success" onclick="imprimirLista()">
-                <i class="fas fa-print"></i> IMPRIMIR LISTA
-            </button>
-            <button class="btn btn-warning" onclick="modoNavidad()">
-                <i class="fas fa-tree"></i> MODO NAVIDAD
-            </button>
-        </div>
+            <div class="controls">
+                <button class="btn btn-primary" onclick="cargarDatos()">
+                    <i class="fas fa-sync-alt"></i> ACTUALIZAR LISTA
+                </button>
+                <button class="btn btn-success" onclick="imprimirLista()">
+                    <i class="fas fa-print"></i> IMPRIMIR LISTA
+                </button>
+                <button class="btn btn-info" onclick="irAlFormulario()">
+                    <i class="fas fa-edit"></i> IR AL FORMULARIO
+                </button>
+                <button class="btn btn-warning" onclick="modoNavidad()">
+                    <i class="fas fa-tree"></i> MODO NAVIDAD
+                </button>
+            </div>
         
         <!-- ÁREA PRINCIPAL CON SCROLL -->
         <div class="main-content">
@@ -941,6 +972,21 @@
                 currentAbortController = null;
             }
         }
+
+            function irAlFormulario() {
+            // REEMPLAZA ESTA URL CON LA DE TU FORMULARIO REAL
+            const URL_FORMULARIO = 'https://docs.google.com/forms/d/e/1FAIpQLScaJ9N_qJYLCxp_9dbLQm9fesDZ534XSseJZ1HB32mbn4YHEg/viewform?usp=dialog';
+            
+            // Verificar si estamos usando la URL de ejemplo
+            if (URL_FORMULARIO.includes('TuURLRealAquí')) {
+                alert('ℹ️ Configura la URL del formulario:\n\n1. Abre el archivo HTML\n2. Busca "URL_FORMULARIO"\n3. Reemplaza con tu enlace real de Google Forms');
+                // Abrir Google Forms de ejemplo
+                window.open('https://forms.gle/', '_blank');
+            } else {
+                window.open(URL_FORMULARIO, '_blank', 'noopener,noreferrer');
+            }
+        }     
+
 
         // ============================================
         // CONFIGURACIÓN - ¡PEGA AQUÍ TU URL!
