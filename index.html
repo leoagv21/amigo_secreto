@@ -551,46 +551,114 @@
     </button>
 
     <script>
-        // ============================================
-        // VARIABLES GLOBALES
-        // ============================================
-        let datosUsuarios = [];
-        let modoNavidadActivo = false;
-        
-        // ============================================
-        // FUNCIONES PRINCIPALES
-        // ============================================
-        
+        // Estado para evitar re-render si no hay cambios
+        let lastSignature = '';
+        let pollingIntervalMs = 5000; // 5 segundos
+        let pollingTimer = null;
+        let currentAbortController = null;
+
         // Cargar datos al iniciar
         document.addEventListener('DOMContentLoaded', function() {
             console.log('✅ Panel público cargado');
             actualizarReloj();
             cargarDatos();
             setInterval(actualizarReloj, 1000);
-            setInterval(cargarDatos, 30000); // Auto-refresh cada 30 segundos
+            startPolling(); // Inicia el polling controlado
         });
-        
+
+        function startPolling() {
+            if (pollingTimer) clearInterval(pollingTimer);
+            pollingTimer = setInterval(cargarDatos, pollingIntervalMs);
+        }
+
+        function stopPolling() {
+            if (pollingTimer) {
+                clearInterval(pollingTimer);
+                pollingTimer = null;
+            }
+        }
+
 async function cargarDatos() {
-    console.log('🔄 Cargando datos reales desde Google Sheets...');
+    console.log('🔄 Intentando cargar datos desde Google Sheets...');
     const contenedor = document.getElementById('contenedor');
-    
-    // Mostrar loading
-    contenedor.innerHTML = `
-        <div class="loading">
-            <div class="loading-spinner"></div>
-            <h2>Conectando con Google Sheets...</h2>
-            <p>Obteniendo datos en tiempo real</p>
-        </div>
-    `;
-    
+
+    // Mostrar loading solo la primera vez o si no hay datos cargados
+    if (!lastSignature) {
+        contenedor.innerHTML = `
+            <div class="loading">
+                <div class="loading-spinner"></div>
+                <h2>Conectando con Google Sheets...</h2>
+                <p>Obteniendo datos en tiempo real</p>
+            </div>
+        `;
+    }
+
     try {
-        // Obtener datos REALES de tu Google Sheets
-        const datosReales = await obtenerDatosDesdeSheets();
-        mostrarDatos(datosReales);
-        
+        // Cancelar petición anterior si existe
+        if (currentAbortController) {
+            currentAbortController.abort();
+        }
+        currentAbortController = new AbortController();
+        const datosReales = await obtenerDatosDesdeSheets({ signal: currentAbortController.signal });
+
+        if (!datosReales) {
+            console.warn('Respuesta vacía de obtenerDatosDesdeSheets');
+            return;
+        }
+
+        // Crear firma simple para detectar cambios (timestamp + total)
+        const signature = ((datosReales.timestamp || '') + '|' + (datosReales.total || (datosReales.data ? datosReales.data.length : 0)));
+
+        if (signature !== lastSignature) {
+            console.log('🔁 Cambio detectado — actualizando UI');
+            lastSignature = signature;
+            mostrarDatos(datosReales);
+        } else {
+            console.log('✔️ Sin cambios desde la última actualización');
+        }
     } catch (error) {
+        if (error.name === 'AbortError') {
+            console.log('❌ Petición anterior abortada.');
+            return;
+        }
         console.error('❌ Error:', error);
         mostrarError(error);
+    } finally {
+        currentAbortController = null;
+    }
+}
+
+        // Ajuste en la función real para aceptar signal opcional
+async function obtenerDatosDesdeSheets(options = {}) {
+    try {
+        console.log('🔗 Conectando a:', API_URL);
+
+        // Llamar a tu API de Google Apps Script con posibilidad de abort
+        const response = await fetch(API_URL, { signal: options.signal });
+
+        if (!response.ok) {
+            throw new Error(`Error HTTP: ${response.status}`);
+        }
+
+        const resultado = await response.json();
+        console.log('✅ Datos recibidos:', resultado);
+
+        return resultado;
+
+    } catch (error) {
+        console.error('❌ Error al obtener datos:', error);
+
+        // Si fue abort, propagar para que el caller lo maneje
+        if (error.name === 'AbortError') throw error;
+
+        // En caso de error, devolver estructura vacía (no actualiza UI excepto para mostrarError)
+        return {
+            success: false,
+            data: [],
+            total: 0,
+            message: "Error de conexión: " + (error.message || error),
+            timestamp: new Date().toLocaleString('es-ES')
+        };
     }
 }
         
