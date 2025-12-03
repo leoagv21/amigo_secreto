@@ -570,75 +570,68 @@
             setInterval(cargarDatos, 30000); // Auto-refresh cada 30 segundos
         });
         
-        // Función para cargar datos desde Google Sheets
-        async function cargarDatos() {
-            console.log('🔄 Solicitando datos...');
-            const contenedor = document.getElementById('contenedor');
-            
-            // Mostrar loading
-            contenedor.innerHTML = `
-                <div class="loading">
-                    <div class="loading-spinner"></div>
-                    <h2>Actualizando lista...</h2>
-                    <p>Obteniendo datos más recientes</p>
-                </div>
-            `;
-            
-            try {
-                // Esta es la parte CRÍTICA - Necesitas conectar con tu Google Sheets
-                // Para esto necesitarás un backend simple
-                
-                // Por ahora, vamos a simular datos o usar una función local
-                // MÁS ADELANTE te explico cómo conectar con tu Google Sheets
-                
-                // Simulación de datos (remplázalo con tu conexión real)
-                const datosSimulados = await obtenerDatosDesdeSheets();
-                mostrarDatos(datosSimulados);
-                
-            } catch (error) {
-                console.error('❌ Error:', error);
-                mostrarError(error);
-            }
+async function cargarDatos() {
+    console.log('🔄 Cargando datos reales desde Google Sheets...');
+    const contenedor = document.getElementById('contenedor');
+    
+    // Mostrar loading
+    contenedor.innerHTML = `
+        <div class="loading">
+            <div class="loading-spinner"></div>
+            <h2>Conectando con Google Sheets...</h2>
+            <p>Obteniendo datos en tiempo real</p>
+        </div>
+    `;
+    
+    try {
+        // Obtener datos REALES de tu Google Sheets
+        const datosReales = await obtenerDatosDesdeSheets();
+        mostrarDatos(datosReales);
+        
+    } catch (error) {
+        console.error('❌ Error:', error);
+        mostrarError(error);
+    }
+}
+        
+        // ============================================
+// CONFIGURACIÓN - ¡PEGA AQUÍ TU URL!
+// ============================================
+// PEGA AQUÍ LA URL QUE COPIAS DEL PASO 2
+const API_URL = 'https://script.google.com/macros/s/AKfycbzCAcXS-3y8uuOsRDTgCIiFV8jlBgyiLAUGUZ9JrEldsl8XdrfE6Sam02z3NVYVeUg9/exec';
+
+// ============================================
+// FUNCIÓN REAL PARA OBTENER DATOS
+// ============================================
+async function obtenerDatosDesdeSheets() {
+    try {
+        console.log('🔗 Conectando a:', API_URL);
+        
+        // Llamar a tu API de Google Apps Script
+        const response = await fetch(API_URL);
+        
+        if (!response.ok) {
+            throw new Error(`Error HTTP: ${response.status}`);
         }
         
-        // Función SIMULADA para obtener datos
-        async function obtenerDatosDesdeSheets() {
-            // ESTA ES LA PARTE QUE DEBES MODIFICAR
-            // Te explico después cómo hacerlo
-            
-            // Por ahora, devolvemos datos de ejemplo
-            return {
-                success: true,
-                data: [
-                    {
-                        id: 1,
-                        nombre: "Juan Pérez",
-                        regalos: ["Camiseta de futbol", "Libro de cocina", "Auriculares"],
-                        talla: "M",
-                        color: "Azul",
-                        noQuiere: "Nada de ropa interior"
-                    },
-                    {
-                        id: 2,
-                        nombre: "María García",
-                        regalos: ["Perfume", "Bolso", "Reloj"],
-                        talla: "S",
-                        color: "Rosa",
-                        noQuiere: "Nada electrónico"
-                    },
-                    {
-                        id: 3,
-                        nombre: "Carlos López",
-                        regalos: ["Zapatillas deportivas", "Gorra", "Mochila"],
-                        talla: "42",
-                        color: "Negro",
-                        noQuiere: "Sin preferencias"
-                    }
-                ],
-                total: 3,
-                timestamp: new Date().toLocaleString('es-ES')
-            };
-        }
+        const resultado = await response.json();
+        console.log('✅ Datos recibidos:', resultado);
+        
+        return resultado;
+        
+    } catch (error) {
+        console.error('❌ Error al obtener datos:', error);
+        
+        // En caso de error, devolver estructura vacía
+        return {
+            success: false,
+            data: [],
+            total: 0,
+            message: "Error de conexión: " + error.message,
+            timestamp: new Date().toLocaleString('es-ES')
+        };
+    }
+}
         
         // Mostrar datos en el panel
         function mostrarDatos(respuesta) {
