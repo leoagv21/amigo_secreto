@@ -108,6 +108,20 @@ body {
     gap: 20px;
     flex-shrink: 0;
 }
+/* Animación para el contador cuando está cerca */
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}
+
+/* Añade esto dentro del media query para móviles si quieres */
+@media (max-width: 768px) {
+    #contadorEntrega.urgente {
+        animation: pulse 1s infinite;
+        font-weight: 900;
+    }
+}
 
 /* ESTADÍSTICAS */
 .stats-container {
@@ -1100,10 +1114,10 @@ body {
                     <span class="stat-label">Regalos Solicitados</span>
                 </div>
                 <div class="stat-card">
-                    <span class="stat-number" id="contadorRegresivo">--</span>
-                    <span class="stat-label">Tiempo para entrega</span>
-                </div>
-            </div>
+                        <span class="stat-number" id="contadorEntrega">--</span>
+                        <span class="stat-label" id="contadorLabel">Días para entrega</span>
+                    </div>
+                </div>  
             
             <!-- CONTROLES -->
             <div class="controls">
@@ -1173,7 +1187,8 @@ body {
             actualizarReloj();
             cargarDatos();
             setInterval(actualizarReloj, 1000);
-            startPolling(); // Inicia el polling controlado
+            startPolling();
+            iniciarContadorEntrega(); // <-- Agrega esta línea
         });
 
         function startPolling() {
@@ -1308,7 +1323,7 @@ body {
             // Actualizar estadísticas
             document.getElementById('totalPersonas').textContent = datosUsuarios.length;
             document.getElementById('totalRegalos').textContent = totalRegalos;
-            document.getElementById('ultimaActualizacion').textContent = respuesta.timestamp || 'Ahora';
+           
             document.getElementById('fechaHora').textContent = new Date().toLocaleString('es-ES', {
                 weekday: 'long',
                 year: 'numeric',
@@ -1536,7 +1551,82 @@ body {
                 </div>
             `;
         }
-        
+     // ============================================
+// CONTADOR PARA FECHA DE ENTREGA (12 de diciembre)
+// ============================================
+
+function iniciarContadorEntrega() {
+    // Fecha objetivo: 12 de diciembre del año actual
+    const ahora = new Date();
+    const añoActual = ahora.getFullYear();
+    const fechaEntrega = new Date(añoActual, 11, 12); // 11 = Diciembre (0-indexado)
+    
+    // Si ya pasó la fecha este año, usar el próximo año
+    if (ahora > fechaEntrega) {
+        fechaEntrega.setFullYear(añoActual + 1);
+    }
+    
+    actualizarContadorEntrega(fechaEntrega);
+    
+    // Actualizar cada segundo
+    setInterval(() => actualizarContadorEntrega(fechaEntrega), 1000);
+}
+
+function actualizarContadorEntrega(fechaObjetivo) {
+    const ahora = new Date();
+    const diferencia = fechaObjetivo - ahora;
+    
+    // Si ya pasó la fecha
+    if (diferencia <= 0) {
+        document.getElementById('contadorEntrega').textContent = "¡HOY!";
+        document.getElementById('contadorLabel').textContent = "¡Entrega de regalos!";
+        return;
+    }
+    
+    // Calcular días, horas, minutos, segundos
+    const segundos = Math.floor(diferencia / 1000);
+    const minutos = Math.floor(segundos / 60);
+    const horas = Math.floor(minutos / 60);
+    const dias = Math.floor(horas / 24);
+    
+    // Formatear el contador
+    const horasRestantes = horas % 24;
+    const minutosRestantes = minutos % 60;
+    const segundosRestantes = segundos % 60;
+    
+    // Mostrar según el tiempo restante
+    if (dias > 0) {
+        document.getElementById('contadorEntrega').textContent = dias;
+        document.getElementById('contadorLabel').textContent = dias === 1 ? "Día para entrega" : "Días para entrega";
+    } else if (horasRestantes > 0) {
+        document.getElementById('contadorEntrega').textContent = `${horasRestantes}h ${minutosRestantes}m`;
+        document.getElementById('contadorLabel').textContent = "Horas restantes";
+    } else if (minutosRestantes > 0) {
+        document.getElementById('contadorEntrega').textContent = `${minutosRestantes}m ${segundosRestantes}s`;
+        document.getElementById('contadorLabel').textContent = "Minutos restantes";
+    } else {
+        document.getElementById('contadorEntrega').textContent = `${segundosRestantes}s`;
+        document.getElementById('contadorLabel').textContent = "Segundos restantes";
+    }
+    
+    // Cambiar color cuando esté cerca la fecha
+    const contadorElement = document.getElementById('contadorEntrega');
+    const tarjetaContador = contadorElement.closest('.stat-card');
+    
+    if (dias === 0 && horasRestantes < 24) {
+        // Menos de 24 horas: color rojo
+        tarjetaContador.style.borderTopColor = "#e74c3c";
+        contadorElement.style.color = "#e74c3c";
+    } else if (dias <= 3) {
+        // Menos de 3 días: color naranja
+        tarjetaContador.style.borderTopColor = "#f39c12";
+        contadorElement.style.color = "#f39c12";
+    } else {
+        // Más de 3 días: color verde
+        tarjetaContador.style.borderTopColor = "#2ecc71";
+        contadorElement.style.color = "#3498db";
+    }
+}
         // ============================================
         // FUNCIONES AUXILIARES
         // ============================================
