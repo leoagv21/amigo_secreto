@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lista de Regalos Navideños</title>
-     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎄</text></svg>">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎄</text></svg>">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
 /* RESET Y VARIABLES */
@@ -108,19 +108,12 @@ body {
     gap: 20px;
     flex-shrink: 0;
 }
+
 /* Animación para el contador cuando está cerca */
 @keyframes pulse {
     0% { transform: scale(1); }
     50% { transform: scale(1.05); }
     100% { transform: scale(1); }
-}
-
-/* Añade esto dentro del media query para móviles si quieres */
-@media (max-width: 768px) {
-    #contadorEntrega.urgente {
-        animation: pulse 1s infinite;
-        font-weight: 900;
-    }
 }
 
 /* ESTADÍSTICAS */
@@ -834,6 +827,12 @@ body {
         right: 15px;
         font-size: 1.4em;
     }
+    
+    /* Animación para contador urgente en móvil */
+    #contadorEntrega.urgente {
+        animation: pulse 1s infinite;
+        font-weight: 900;
+    }
 }
 
 /* =========================================== */
@@ -1037,7 +1036,7 @@ body {
 /* Ajustar tamaño de fuente para estadísticas */
 #totalPersonas,
 #totalRegalos,
-#ultimaActualizacion {
+#contadorEntrega {
     font-weight: 800;
     letter-spacing: -0.5px;
 }
@@ -1114,10 +1113,10 @@ body {
                     <span class="stat-label">Regalos Solicitados</span>
                 </div>
                 <div class="stat-card">
-                        <span class="stat-number" id="contadorEntrega">--</span>
-                        <span class="stat-label" id="contadorLabel">Días para entrega</span>
-                    </div>
-                </div>  
+                    <span class="stat-number" id="contadorEntrega">--</span>
+                    <span class="stat-label" id="contadorLabel">Días para entrega</span>
+                </div>
+            </div>
             
             <!-- CONTROLES -->
             <div class="controls">
@@ -1168,7 +1167,6 @@ body {
             <i class="fas fa-expand"></i>
         </button>
     </div>
-    <!-- FIN DEL CONTAINER -->
 
     <script>
         // Variables globales
@@ -1177,7 +1175,7 @@ body {
         
         // Estado para evitar re-render si no hay cambios
         let lastSignature = '';
-        let pollingIntervalMs = 5000; // 5 segundos
+        let pollingIntervalMs = 5000;
         let pollingTimer = null;
         let currentAbortController = null;
 
@@ -1188,7 +1186,7 @@ body {
             cargarDatos();
             setInterval(actualizarReloj, 1000);
             startPolling();
-            iniciarContadorEntrega(); // <-- Agrega esta línea
+            iniciarContadorEntrega();
         });
 
         function startPolling() {
@@ -1207,7 +1205,6 @@ body {
             console.log('🔄 Intentando cargar datos desde Google Sheets...');
             const contenedor = document.getElementById('contenedor');
 
-            // Mostrar loading solo la primera vez o si no hay datos cargados
             if (!lastSignature) {
                 contenedor.innerHTML = `
                     <div class="loading">
@@ -1219,7 +1216,6 @@ body {
             }
 
             try {
-                // Cancelar petición anterior si existe
                 if (currentAbortController) {
                     currentAbortController.abort();
                 }
@@ -1231,7 +1227,6 @@ body {
                     return;
                 }
 
-                // Crear firma simple para detectar cambios (timestamp + total)
                 const signature = ((datosReales.timestamp || '') + '|' + (datosReales.total || (datosReales.data ? datosReales.data.length : 0)));
 
                 if (signature !== lastSignature) {
@@ -1254,32 +1249,22 @@ body {
         }
 
         function irAlFormulario() {
-            // REEMPLAZA ESTA URL CON LA DE TU FORMULARIO REAL
             const URL_FORMULARIO = 'https://docs.google.com/forms/d/e/1FAIpQLScaJ9N_qJYLCxp_9dbLQm9fesDZ534XSseJZ1HB32mbn4YHEg/viewform?usp=dialog';
             
-            // Verificar si estamos usando la URL de ejemplo
             if (URL_FORMULARIO.includes('TuURLRealAquí')) {
                 alert('ℹ️ Configura la URL del formulario:\n\n1. Abre el archivo HTML\n2. Busca "URL_FORMULARIO"\n3. Reemplaza con tu enlace real de Google Forms');
-                // Abrir Google Forms de ejemplo
                 window.open('https://forms.gle/', '_blank');
             } else {
                 window.open(URL_FORMULARIO, '_blank', 'noopener,noreferrer');
             }
         }     
 
-        // ============================================
-        // CONFIGURACIÓN - ¡PEGA AQUÍ TU URL!
-        // ============================================
         const API_URL = 'https://script.google.com/macros/s/AKfycbzZyl74E69yo_loyl-YATIksZgnGbMKU1ntDueYnyqcnWE8KM6nPpn3c0g0r2DfjKDb/exec';
 
-        // ============================================
-        // FUNCIÓN REAL PARA OBTENER DATOS
-        // ============================================
         async function obtenerDatosDesdeSheets(options = {}) {
             try {
                 console.log('🔗 Conectando a:', API_URL);
                 
-                // Llamar a tu API de Google Apps Script con posibilidad de abort
                 const response = await fetch(API_URL, { signal: options.signal });
                 
                 if (!response.ok) {
@@ -1294,10 +1279,8 @@ body {
             } catch (error) {
                 console.error('❌ Error al obtener datos:', error);
                 
-                // Si fue abort, propagar para que el caller lo maneje
                 if (error.name === 'AbortError') throw error;
 
-                // En caso de error, devolver estructura vacía (no actualiza UI excepto para mostrarError)
                 return {
                     success: false,
                     data: [],
@@ -1308,7 +1291,6 @@ body {
             }
         }
         
-        // Mostrar datos en el panel
         function mostrarDatos(respuesta) {
             console.log('📊 Datos recibidos:', respuesta);
             
@@ -1320,7 +1302,6 @@ body {
             datosUsuarios = respuesta.data || [];
             const totalRegalos = datosUsuarios.reduce((total, usuario) => total + (usuario.regalos ? usuario.regalos.length : 0), 0);
             
-            // Actualizar estadísticas
             document.getElementById('totalPersonas').textContent = datosUsuarios.length;
             document.getElementById('totalRegalos').textContent = totalRegalos;
            
@@ -1333,11 +1314,9 @@ body {
                 minute: '2-digit'
             });
             
-            // Generar tarjetas
             generarTarjetas(datosUsuarios);
         }
         
-        // Generar tarjetas HTML
         function generarTarjetas(usuarios) {
             const contenedor = document.getElementById('contenedor');
             
@@ -1358,7 +1337,6 @@ body {
             let html = '';
             
             usuarios.forEach((usuario, index) => {
-                // Determinar color para mostrar
                 let colorBox = '';
                 if (usuario.color && !usuario.color.toLowerCase().includes('no')) {
                     const colorMap = {
@@ -1390,7 +1368,6 @@ body {
                     }
                 }
                 
-                // Generar HTML de la tarjeta
                 html += `
                     <div class="user-card" onclick="ampliarUsuario(${index})">
                         <div class="card-number">${index + 1}</div>
@@ -1406,7 +1383,6 @@ body {
                             <ul class="gift-list">
                 `;
                 
-                // Mostrar regalos
                 if (usuario.regalos && usuario.regalos.length > 0) {
                     usuario.regalos.forEach((regalo, regaloIndex) => {
                         if (regalo && regalo.toString().trim() !== '') {
@@ -1457,12 +1433,10 @@ body {
             contenedor.innerHTML = html;
         }
         
-        // Ampliar información del usuario
         function ampliarUsuario(index) {
             const usuario = datosUsuarios[index];
             if (!usuario) return;
             
-            // Crear modal
             const modalHTML = `
                 <div class="modal-overlay">
                     <div class="modal-content">
@@ -1524,7 +1498,6 @@ body {
             document.body.appendChild(modal);
         }
         
-        // Mostrar error
         function mostrarError(error) {
             console.error('❌ Error:', error);
             const contenedor = document.getElementById('contenedor');
@@ -1551,85 +1524,86 @@ body {
                 </div>
             `;
         }
-     // ============================================
-// CONTADOR PARA FECHA DE ENTREGA (12 de diciembre)
-// ============================================
-
-function iniciarContadorEntrega() {
-    // Fecha objetivo: 12 de diciembre del año actual
-    const ahora = new Date();
-    const añoActual = ahora.getFullYear();
-    const fechaEntrega = new Date(añoActual, 11, 12); // 11 = Diciembre (0-indexado)
-    
-    // Si ya pasó la fecha este año, usar el próximo año
-    if (ahora > fechaEntrega) {
-        fechaEntrega.setFullYear(añoActual + 1);
-    }
-    
-    actualizarContadorEntrega(fechaEntrega);
-    
-    // Actualizar cada segundo
-    setInterval(() => actualizarContadorEntrega(fechaEntrega), 1000);
-}
-
-function actualizarContadorEntrega(fechaObjetivo) {
-    const ahora = new Date();
-    const diferencia = fechaObjetivo - ahora;
-    
-    // Si ya pasó la fecha
-    if (diferencia <= 0) {
-        document.getElementById('contadorEntrega').textContent = "¡HOY!";
-        document.getElementById('contadorLabel').textContent = "¡Entrega de regalos!";
-        return;
-    }
-    
-    // Calcular días, horas, minutos, segundos
-    const segundos = Math.floor(diferencia / 1000);
-    const minutos = Math.floor(segundos / 60);
-    const horas = Math.floor(minutos / 60);
-    const dias = Math.floor(horas / 24);
-    
-    // Formatear el contador
-    const horasRestantes = horas % 24;
-    const minutosRestantes = minutos % 60;
-    const segundosRestantes = segundos % 60;
-    
-    // Mostrar según el tiempo restante
-    if (dias > 0) {
-        document.getElementById('contadorEntrega').textContent = dias;
-        document.getElementById('contadorLabel').textContent = dias === 1 ? "Día para entrega" : "Días para entrega";
-    } else if (horasRestantes > 0) {
-        document.getElementById('contadorEntrega').textContent = `${horasRestantes}h ${minutosRestantes}m`;
-        document.getElementById('contadorLabel').textContent = "Horas restantes";
-    } else if (minutosRestantes > 0) {
-        document.getElementById('contadorEntrega').textContent = `${minutosRestantes}m ${segundosRestantes}s`;
-        document.getElementById('contadorLabel').textContent = "Minutos restantes";
-    } else {
-        document.getElementById('contadorEntrega').textContent = `${segundosRestantes}s`;
-        document.getElementById('contadorLabel').textContent = "Segundos restantes";
-    }
-    
-    // Cambiar color cuando esté cerca la fecha
-    const contadorElement = document.getElementById('contadorEntrega');
-    const tarjetaContador = contadorElement.closest('.stat-card');
-    
-    if (dias === 0 && horasRestantes < 24) {
-        // Menos de 24 horas: color rojo
-        tarjetaContador.style.borderTopColor = "#e74c3c";
-        contadorElement.style.color = "#e74c3c";
-    } else if (dias <= 3) {
-        // Menos de 3 días: color naranja
-        tarjetaContador.style.borderTopColor = "#f39c12";
-        contadorElement.style.color = "#f39c12";
-    } else {
-        // Más de 3 días: color verde
-        tarjetaContador.style.borderTopColor = "#2ecc71";
-        contadorElement.style.color = "#3498db";
-    }
-}
+     
         // ============================================
-        // FUNCIONES AUXILIARES
+        // CONTADOR PARA FECHA DE ENTREGA (12 de diciembre)
         // ============================================
+
+        function iniciarContadorEntrega() {
+            // Fecha objetivo: 12 de diciembre del año actual
+            const ahora = new Date();
+            const añoActual = ahora.getFullYear();
+            const fechaEntrega = new Date(añoActual, 11, 12); // 11 = Diciembre (0-indexado)
+            
+            // Si ya pasó la fecha este año, usar el próximo año
+            if (ahora > fechaEntrega) {
+                fechaEntrega.setFullYear(añoActual + 1);
+            }
+            
+            actualizarContadorEntrega(fechaEntrega);
+            
+            // Actualizar cada segundo
+            setInterval(() => actualizarContadorEntrega(fechaEntrega), 1000);
+        }
+
+        function actualizarContadorEntrega(fechaObjetivo) {
+            const ahora = new Date();
+            const diferencia = fechaObjetivo - ahora;
+            
+            // Si ya pasó la fecha
+            if (diferencia <= 0) {
+                document.getElementById('contadorEntrega').textContent = "¡HOY!";
+                document.getElementById('contadorLabel').textContent = "¡Entrega de regalos!";
+                return;
+            }
+            
+            // Calcular días, horas, minutos, segundos
+            const segundos = Math.floor(diferencia / 1000);
+            const minutos = Math.floor(segundos / 60);
+            const horas = Math.floor(minutos / 60);
+            const dias = Math.floor(horas / 24);
+            
+            // Formatear el contador
+            const horasRestantes = horas % 24;
+            const minutosRestantes = minutos % 60;
+            const segundosRestantes = segundos % 60;
+            
+            // Mostrar según el tiempo restante
+            if (dias > 0) {
+                document.getElementById('contadorEntrega').textContent = dias;
+                document.getElementById('contadorLabel').textContent = dias === 1 ? "Día para entrega" : "Días para entrega";
+            } else if (horasRestantes > 0) {
+                document.getElementById('contadorEntrega').textContent = `${horasRestantes}h ${minutosRestantes}m`;
+                document.getElementById('contadorLabel').textContent = "Horas restantes";
+            } else if (minutosRestantes > 0) {
+                document.getElementById('contadorEntrega').textContent = `${minutosRestantes}m ${segundosRestantes}s`;
+                document.getElementById('contadorLabel').textContent = "Minutos restantes";
+            } else {
+                document.getElementById('contadorEntrega').textContent = `${segundosRestantes}s`;
+                document.getElementById('contadorLabel').textContent = "Segundos restantes";
+            }
+            
+            // Cambiar color cuando esté cerca la fecha
+            const contadorElement = document.getElementById('contadorEntrega');
+            const tarjetaContador = contadorElement.closest('.stat-card');
+            
+            if (dias === 0 && horasRestantes < 24) {
+                // Menos de 24 horas: color rojo
+                tarjetaContador.style.borderTopColor = "#e74c3c";
+                contadorElement.style.color = "#e74c3c";
+                contadorElement.classList.add('urgente');
+            } else if (dias <= 3) {
+                // Menos de 3 días: color naranja
+                tarjetaContador.style.borderTopColor = "#f39c12";
+                contadorElement.style.color = "#f39c12";
+                contadorElement.classList.remove('urgente');
+            } else {
+                // Más de 3 días: color verde
+                tarjetaContador.style.borderTopColor = "#2ecc71";
+                contadorElement.style.color = "#3498db";
+                contadorElement.classList.remove('urgente');
+            }
+        }
         
         function toggleFullscreen() {
             if (!document.fullscreenElement) {
@@ -1667,26 +1641,20 @@ function actualizarContadorEntrega(fechaObjetivo) {
             const header = document.querySelector('.main-header');
             
             if (modoNavidadActivo) {
-                // Activar modo navidad
                 body.style.background = 'linear-gradient(135deg, #1a5276, #145a32)';
                 header.style.background = 'linear-gradient(to right, #c0392b, #e74c3c)';
                 
-                // Agregar efectos de nieve
                 agregarNieve();
                 
-                // Cambiar texto del botón
                 event.target.innerHTML = '<i class="fas fa-home"></i> MODO NORMAL';
                 event.target.style.background = '#27ae60';
                 
             } else {
-                // Desactivar modo navidad
                 body.style.background = 'linear-gradient(135deg, #1a2980, #26d0ce)';
                 header.style.background = 'linear-gradient(to right, #2c3e50, #3498db)';
                 
-                // Quitar nieve
                 document.querySelectorAll('.snowflake').forEach(snow => snow.remove());
                 
-                // Cambiar texto del botón
                 event.target.innerHTML = '<i class="fas fa-tree"></i> MODO NAVIDAD';
                 event.target.style.background = '#f39c12';
             }
@@ -1711,7 +1679,6 @@ function actualizarContadorEntrega(fechaObjetivo) {
                     `;
                     document.body.appendChild(snowflake);
                     
-                    // Eliminar después de la animación
                     setTimeout(() => {
                         if (snowflake.parentNode) {
                             snowflake.parentNode.removeChild(snowflake);
@@ -1720,7 +1687,6 @@ function actualizarContadorEntrega(fechaObjetivo) {
                 }, i * 200);
             }
             
-            // Agregar keyframes para animación
             if (!document.querySelector('#snow-animation')) {
                 const style = document.createElement('style');
                 style.id = 'snow-animation';
@@ -1738,7 +1704,6 @@ function actualizarContadorEntrega(fechaObjetivo) {
             }
         }
         
-        // Cerrar modal con ESC
         document.addEventListener('keydown', function(e) {
             if (e.key === 'Escape') {
                 document.querySelectorAll('.modal-overlay').forEach(modal => modal.remove());
