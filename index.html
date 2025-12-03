@@ -33,18 +33,20 @@
             overflow-x: hidden;
         }
 
-        /* CONTAINER PRINCIPAL */
-        .container {
-            max-width: 1400px;
-            margin: 0 auto;
-            background: rgba(255, 255, 255, 0.98);
-            border-radius: 25px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
-            overflow: hidden;
-            display: flex;
-            flex-direction: column;
-            max-height: 95vh;
-        }
+    /* CONTAINER PRINCIPAL */
+    .container {
+        max-width: 95vw;  /* Ocupa el 95% del ancho de la ventana */
+        margin: 0 auto;
+        background: rgba(255, 255, 255, 0.98);
+        border-radius: 25px;
+        box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        max-height: 97vh;  /* Aumenté de 95vh a 97vh */
+        width: 100%;  /* Añadido para ocupar más espacio */
+        margin: 10px auto;  /* Reduje márgenes */
+    }
 
         /* HEADER */
         .header {
