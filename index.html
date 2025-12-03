@@ -3,232 +3,254 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lista de Regalos Navideños</title>
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎁</text></svg>">
+    <title>🎁 Lista Regalos Navidad</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎄</text></svg>">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* RESET Y VARIABLES */
+        :root {
+            --navy: #1a237e;
+            --red: #c62828;
+            --green: #2e7d32;
+            --gold: #ffd700;
+            --white: #ffffff;
+            --light-bg: #f5f7fa;
+            --card-bg: #ffffff;
+            --shadow: 0 3px 10px rgba(0,0,0,0.1);
+        }
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
 
-        :root {
-            --primary: #2c3e50;
-            --secondary: #3498db;
-            --accent: #e74c3c;
-            --success: #2ecc71;
-            --light: #ecf0f1;
-            --dark: #2c3e50;
-            --shadow: 0 4px 6px rgba(0,0,0,0.1);
-        }
-
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #1a2980, #26d0ce);
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            background: linear-gradient(135deg, #0a2e1d 0%, #165b33 100%);
             min-height: 100vh;
-            padding: 20px;
             color: #333;
+            padding: 10px;
+            position: relative;
+            overflow-x: hidden;
         }
 
-        /* CONTAINER PRINCIPAL */
+        /* Fondo navideño */
+        .christmas-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+            opacity: 0.1;
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(255, 215, 0, 0.1) 0%, transparent 20%),
+                radial-gradient(circle at 90% 80%, rgba(198, 40, 40, 0.1) 0%, transparent 20%),
+                radial-gradient(circle at 50% 50%, rgba(46, 125, 50, 0.1) 0%, transparent 30%);
+        }
+
         .container {
-            max-width: 1400px;
+            max-width: 1200px;
             margin: 0 auto;
-            background: rgba(255, 255, 255, 0.98);
-            border-radius: 25px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
             overflow: hidden;
+            min-height: 95vh;
         }
 
-        /* HEADER */
+        /* Header compacto */
         .header {
-            background: linear-gradient(to right, #2c3e50, #3498db);
+            background: linear-gradient(135deg, var(--navy) 0%, var(--green) 100%);
             color: white;
-            padding: 40px 30px;
+            padding: 20px 15px;
             text-align: center;
             position: relative;
-            overflow: hidden;
-        }
-
-        .header::before {
-            content: "🎄";
-            position: absolute;
-            font-size: 300px;
-            opacity: 0.05;
-            top: -100px;
-            right: -50px;
-            transform: rotate(15deg);
+            border-bottom: 5px solid var(--gold);
         }
 
         .header h1 {
-            font-size: 3.2em;
-            margin-bottom: 15px;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
-            position: relative;
-            z-index: 2;
-        }
-
-        .header .subtitle {
-            font-size: 1.3em;
-            opacity: 0.9;
-            margin-bottom: 25px;
-            position: relative;
-            z-index: 2;
-        }
-
-        /* ESTADÍSTICAS */
-        .stats-container {
-            display: flex;
-            justify-content: center;
-            gap: 25px;
-            margin: 30px 0;
-            flex-wrap: wrap;
-            position: relative;
-            z-index: 2;
-        }
-
-        .stat-card {
-            background: white;
-            padding: 25px 35px;
-            border-radius: 20px;
-            text-align: center;
-            min-width: 200px;
-            box-shadow: var(--shadow);
-            transition: transform 0.3s, box-shadow 0.3s;
-            border-top: 5px solid var(--success);
-        }
-
-        .stat-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 15px 30px rgba(0,0,0,0.2);
-        }
-
-        .stat-number {
-            font-size: 3em;
-            font-weight: bold;
-            color: var(--secondary);
-            display: block;
-            margin-bottom: 10px;
-        }
-
-        .stat-label {
-            color: #666;
-            font-size: 1.1em;
-            font-weight: 600;
-        }
-
-        /* CONTROLES */
-        .controls {
-            padding: 25px;
-            background: var(--light);
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-            flex-wrap: wrap;
-        }
-
-        .btn {
-            padding: 15px 30px;
-            border: none;
-            border-radius: 50px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: all 0.3s;
-            font-size: 1.1em;
+            font-size: 1.6em;
+            margin-bottom: 8px;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 12px;
-            min-width: 200px;
+            gap: 10px;
+        }
+
+        .subtitle {
+            font-size: 0.9em;
+            opacity: 0.9;
+        }
+
+        /* Stats mini */
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            padding: 15px;
+            background: var(--light-bg);
+            margin: 10px 15px;
+            border-radius: 12px;
+        }
+
+        .stat {
+            text-align: center;
+            padding: 12px 8px;
+            background: var(--card-bg);
+            border-radius: 10px;
+            box-shadow: var(--shadow);
+            border-top: 4px solid var(--green);
+        }
+
+        .stat-number {
+            font-size: 1.4em;
+            font-weight: bold;
+            color: var(--navy);
+            display: block;
+        }
+
+        .stat-label {
+            font-size: 0.75em;
+            color: #666;
+            margin-top: 5px;
+        }
+
+        /* Botones principales */
+        .controls {
+            display: flex;
+            gap: 10px;
+            padding: 15px;
+            background: var(--light-bg);
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .btn {
+            padding: 12px 20px;
+            border: none;
+            border-radius: 50px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            font-size: 0.9em;
+            flex: 1;
+            min-width: 140px;
+            max-width: 200px;
         }
 
         .btn-primary {
-            background: var(--secondary);
+            background: var(--navy);
             color: white;
         }
 
         .btn-success {
-            background: var(--success);
+            background: var(--green);
             color: white;
         }
 
-        .btn-warning {
-            background: #f39c12;
-            color: white;
+        .btn-gold {
+            background: var(--gold);
+            color: #333;
         }
 
         .btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
         }
 
-        /* TARJETAS DE USUARIOS */
-        .cards-grid {
+        /* Grid de tarjetas optimizado */
+        .cards-container {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
-            gap: 30px;
-            padding: 40px;
-            max-height: 70vh;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 15px;
+            padding: 15px;
+            max-height: 60vh;
             overflow-y: auto;
         }
 
+        /* Scrollbar personalizado */
+        .cards-container::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .cards-container::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 3px;
+        }
+
+        .cards-container::-webkit-scrollbar-thumb {
+            background: var(--green);
+            border-radius: 3px;
+        }
+
+        /* Tarjetas compactas */
         .user-card {
-            background: white;
-            border-radius: 20px;
-            padding: 30px;
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 20px;
             box-shadow: var(--shadow);
-            transition: all 0.3s;
-            position: relative;
-            border-top: 8px solid var(--secondary);
+            transition: all 0.2s;
+            border-left: 5px solid var(--navy);
             cursor: pointer;
+            position: relative;
         }
 
         .user-card:hover {
-            transform: translateY(-10px) scale(1.02);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.12);
         }
 
-        .card-number {
+        .user-number {
             position: absolute;
-            top: 20px;
-            right: 20px;
-            background: var(--accent);
+            top: 15px;
+            right: 15px;
+            background: var(--red);
             color: white;
-            width: 50px;
-            height: 50px;
+            width: 30px;
+            height: 30px;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             font-weight: bold;
-            font-size: 1.4em;
-            box-shadow: 0 4px 10px rgba(231, 76, 60, 0.3);
+            font-size: 0.9em;
         }
 
         .user-name {
-            font-size: 1.8em;
-            color: var(--dark);
-            font-weight: bold;
-            margin-bottom: 20px;
-            padding-bottom: 15px;
-            border-bottom: 3px solid var(--light);
+            font-size: 1.3em;
+            color: var(--navy);
+            font-weight: 600;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #f0f0f0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
 
-        /* SECCIONES DENTRO DE LAS TARJETAS */
+        .user-name i {
+            color: var(--green);
+        }
+
+        /* Secciones internas compactas */
         .section {
-            margin-bottom: 25px;
+            margin-bottom: 15px;
         }
 
         .section-title {
-            color: var(--secondary);
-            font-size: 1.2em;
-            font-weight: bold;
-            margin-bottom: 15px;
+            font-size: 0.9em;
+            font-weight: 600;
+            color: var(--navy);
+            margin-bottom: 8px;
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 8px;
         }
 
         .gift-list {
@@ -237,72 +259,165 @@
 
         .gift-item {
             background: #f8f9fa;
-            padding: 15px;
-            margin-bottom: 12px;
-            border-radius: 12px;
-            border-left: 5px solid var(--success);
+            padding: 10px 12px;
+            margin-bottom: 8px;
+            border-radius: 8px;
+            border-left: 3px solid var(--green);
+            font-size: 0.9em;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            transition: all 0.3s;
-        }
-
-        .gift-item:hover {
-            background: #e8f4fc;
-            transform: translateX(5px);
         }
 
         .gift-number {
-            background: var(--secondary);
+            background: var(--navy);
             color: white;
-            padding: 6px 15px;
+            padding: 3px 10px;
             border-radius: 20px;
-            font-size: 0.9em;
-            font-weight: bold;
+            font-size: 0.75em;
+            font-weight: 600;
         }
 
-        /* COLOR FAVORITO */
-        .color-display {
+        /* Color favorito mini */
+        .color-preview {
             display: inline-flex;
             align-items: center;
-            gap: 15px;
-            margin-top: 10px;
+            gap: 8px;
+            margin-top: 5px;
         }
 
         .color-box {
-            width: 35px;
-            height: 35px;
+            width: 25px;
+            height: 25px;
             border-radius: 50%;
-            border: 3px solid white;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            border: 2px solid white;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
         }
 
-        /* PREFERENCIAS (NO QUIERE) */
-        .no-preference {
+        /* No quiere */
+        .no-wants {
             background: #fff5f5;
-            padding: 20px;
-            border-radius: 15px;
-            border-left: 5px solid var(--accent);
-            font-style: italic;
+            padding: 12px;
+            border-radius: 8px;
+            font-size: 0.85em;
             color: #666;
+            border-left: 3px solid var(--red);
+            margin-top: 5px;
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 20px 15px;
+            background: var(--navy);
+            color: white;
+            border-top: 3px solid var(--gold);
+        }
+
+        .timestamp {
+            background: rgba(255,255,255,0.1);
+            padding: 10px 20px;
+            border-radius: 50px;
+            display: inline-block;
+            font-size: 0.85em;
             margin-top: 10px;
         }
 
-        /* LOADING */
+        /* Botón actualizar flotante */
+        .float-btn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: var(--green);
+            color: white;
+            border: none;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            font-size: 1.3em;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            transition: all 0.3s;
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .float-btn:hover {
+            transform: scale(1.1) rotate(15deg);
+            background: var(--navy);
+        }
+
+        /* Modal compacto */
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.8);
+            z-index: 1000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 15px;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 16px;
+            max-width: 500px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            animation: modalIn 0.3s ease;
+        }
+
+        @keyframes modalIn {
+            from { transform: scale(0.9); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+
+        .modal-header {
+            background: linear-gradient(135deg, var(--navy) 0%, var(--green) 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 16px 16px 0 0;
+            position: relative;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: rgba(255,255,255,0.2);
+            border: none;
+            color: white;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Estados de carga y error */
         .loading {
             text-align: center;
-            padding: 80px 20px;
+            padding: 40px 20px;
             grid-column: 1 / -1;
         }
 
-        .loading-spinner {
-            border: 8px solid #f3f3f3;
-            border-top: 8px solid var(--secondary);
+        .spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid var(--green);
             border-radius: 50%;
-            width: 80px;
-            height: 80px;
-            animation: spin 1.5s linear infinite;
-            margin: 0 auto 30px;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
         }
 
         @keyframes spin {
@@ -310,100 +425,58 @@
             100% { transform: rotate(360deg); }
         }
 
-        /* ERROR */
-        .error-container {
-            background: white;
-            padding: 60px;
-            border-radius: 25px;
-            text-align: center;
-            grid-column: 1 / -1;
-            box-shadow: var(--shadow);
-        }
-
-        /* VACÍO */
-        .empty-state {
-            text-align: center;
-            padding: 80px 20px;
-            background: white;
-            border-radius: 25px;
-            grid-column: 1 / -1;
-            box-shadow: var(--shadow);
-        }
-
-        /* FOOTER */
-        .footer {
-            text-align: center;
-            padding: 30px;
-            background: var(--dark);
-            color: white;
-            border-top: 8px solid var(--secondary);
-        }
-
-        .footer-info {
-            display: flex;
-            justify-content: center;
-            gap: 40px;
-            flex-wrap: wrap;
-            margin-bottom: 20px;
-        }
-
-        .timestamp {
-            background: rgba(255,255,255,0.1);
-            padding: 15px 30px;
-            border-radius: 50px;
-            display: inline-block;
-            font-weight: bold;
-        }
-
-        /* BOTÓN PANTALLA COMPLETA */
-        .fullscreen-btn {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            background: var(--secondary);
-            color: white;
-            border: none;
-            width: 70px;
-            height: 70px;
-            border-radius: 50%;
-            font-size: 1.8em;
-            cursor: pointer;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-            transition: all 0.3s;
-            z-index: 1000;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .fullscreen-btn:hover {
-            transform: scale(1.15);
-            background: #2980b9;
-        }
-
-        /* RESPONSIVE */
+        /* Responsive */
         @media (max-width: 768px) {
-            .header h1 {
-                font-size: 2.2em;
+            .container {
+                border-radius: 12px;
             }
             
-            .cards-grid {
+            .cards-container {
                 grid-template-columns: 1fr;
-                padding: 20px;
+                gap: 12px;
+                padding: 12px;
             }
             
-            .stat-card {
-                min-width: 150px;
-                padding: 20px;
+            .header h1 {
+                font-size: 1.4em;
+            }
+            
+            .stats {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 8px;
+                padding: 12px;
+                margin: 8px 12px;
+            }
+            
+            .stat {
+                padding: 10px 6px;
             }
             
             .stat-number {
-                font-size: 2.5em;
+                font-size: 1.2em;
             }
             
             .btn {
-                min-width: 100%;
-                margin-bottom: 10px;
+                padding: 10px 15px;
+                font-size: 0.85em;
+                min-width: 120px;
+            }
+            
+            .user-card {
+                padding: 15px;
+            }
+            
+            .float-btn {
+                width: 50px;
+                height: 50px;
+                bottom: 15px;
+                right: 15px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            body {
+                padding: 5px;
             }
             
             .controls {
@@ -411,339 +484,186 @@
                 align-items: center;
             }
             
-            .fullscreen-btn {
-                width: 60px;
-                height: 60px;
-                bottom: 20px;
-                right: 20px;
-            }
-        }
-
-        /* MODAL DE DETALLE */
-        .modal-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.9);
-            z-index: 2000;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-        }
-
-        .modal-content {
-            background: white;
-            padding: 40px;
-            border-radius: 25px;
-            max-width: 700px;
-            width: 100%;
-            max-height: 90vh;
-            overflow-y: auto;
-            position: relative;
-            box-shadow: 0 30px 80px rgba(0,0,0,0.4);
-        }
-
-        .modal-close {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            background: var(--accent);
-            color: white;
-            border: none;
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            font-size: 1.5em;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        /* IMPRESIÓN */
-        @media print {
-            body {
-                background: white !important;
+            .btn {
+                max-width: 100%;
+                width: 100%;
             }
             
-            .container {
-                box-shadow: none !important;
-                border-radius: 0 !important;
+            .stats {
+                grid-template-columns: 1fr;
+                gap: 8px;
             }
             
-            .btn, .fullscreen-btn, .controls {
-                display: none !important;
+            .header h1 {
+                font-size: 1.2em;
             }
             
-            .cards-grid {
-                max-height: none !important;
-                overflow: visible !important;
+            .header {
+                padding: 15px 10px;
             }
         }
     </style>
 </head>
 <body>
+    <!-- Fondo navideño -->
+    <div class="christmas-bg"></div>
+    
+    <!-- Contenedor principal -->
     <div class="container">
-        <!-- HEADER -->
+        <!-- Header -->
         <div class="header">
-            <h1><i class="fas fa-gift"></i> LISTA DE REGALOS NAVIDEÑOS</h1>
-            <div class="subtitle">Regalos solicitados por cada persona - Panel Público</div>
-            
-            <div class="stats-container">
-                <div class="stat-card">
-                    <span class="stat-number" id="totalPersonas">0</span>
-                    <span class="stat-label">Personas Registradas</span>
-                </div>
-                <div class="stat-card">
-                    <span class="stat-number" id="totalRegalos">0</span>
-                    <span class="stat-label">Regalos Solicitados</span>
-                </div>
-                <div class="stat-card">
-                    <span class="stat-number" id="ultimaActualizacion">-</span>
-                    <span class="stat-label">Última Actualización</span>
-                </div>
+            <h1><i class="fas fa-gift"></i> Lista de Regalos Navideños</h1>
+            <div class="subtitle">Comparte el amor de la Navidad</div>
+        </div>
+        
+        <!-- Estadísticas -->
+        <div class="stats">
+            <div class="stat">
+                <span class="stat-number" id="totalPersonas">0</span>
+                <span class="stat-label">Personas</span>
+            </div>
+            <div class="stat">
+                <span class="stat-number" id="totalRegalos">0</span>
+                <span class="stat-label">Regalos</span>
+            </div>
+            <div class="stat">
+                <span class="stat-number" id="ultimaActualizacion">-</span>
+                <span class="stat-label">Actualización</span>
             </div>
         </div>
         
-        <!-- CONTROLES -->
+        <!-- Controles -->
         <div class="controls">
             <button class="btn btn-primary" onclick="cargarDatos()">
-                <i class="fas fa-sync-alt"></i> ACTUALIZAR LISTA
+                <i class="fas fa-sync-alt"></i> Actualizar
             </button>
             <button class="btn btn-success" onclick="imprimirLista()">
-                <i class="fas fa-print"></i> IMPRIMIR LISTA
+                <i class="fas fa-print"></i> Imprimir
             </button>
-            <button class="btn btn-warning" onclick="modoNavidad()">
-                <i class="fas fa-tree"></i> MODO NAVIDAD
+            <button class="btn btn-gold" onclick="toggleModoCompacto()">
+                <i class="fas fa-compress"></i> Compacto
             </button>
         </div>
         
-        <!-- TARJETAS DE USUARIOS -->
-        <div id="contenedor" class="cards-grid">
+        <!-- Tarjetas de usuarios -->
+        <div id="contenedor" class="cards-container">
             <div class="loading">
-                <div class="loading-spinner"></div>
-                <h2>Cargando lista de regalos...</h2>
-                <p>Conectando con la base de datos...</p>
+                <div class="spinner"></div>
+                <p>Cargando lista de regalos...</p>
             </div>
         </div>
         
-        <!-- FOOTER -->
+        <!-- Footer -->
         <div class="footer">
-            <div class="footer-info">
-                <div><i class="fas fa-info-circle"></i> Este panel se actualiza automáticamente</div>
-                <div><i class="fas fa-mobile-alt"></i> Funciona en todos los dispositivos</div>
-            </div>
+            <p><i class="fas fa-share-alt"></i> Comparte esta lista con tu familia</p>
             <div class="timestamp">
                 <i class="fas fa-clock"></i> 
                 <span id="fechaHora">Cargando...</span>
             </div>
-            <p style="margin-top: 20px; opacity: 0.8; font-size: 0.9em;">
-                Comparte este enlace con todos los participantes
-            </p>
         </div>
     </div>
     
-    <!-- BOTÓN PANTALLA COMPLETA -->
-    <button class="fullscreen-btn" onclick="toggleFullscreen()" title="Pantalla Completa">
-        <i class="fas fa-expand"></i>
+    <!-- Botón flotante para actualizar -->
+    <button class="float-btn" onclick="cargarDatos()" title="Actualizar lista">
+        <i class="fas fa-sync-alt"></i>
     </button>
 
-    <script>
-        // Estado para evitar re-render si no hay cambios
-        let lastSignature = '';
-        let pollingIntervalMs = 5000; // 5 segundos
-        let pollingTimer = null;
-        let currentAbortController = null;
+    <!-- Modal para detalles -->
+    <div id="modalDetalle" class="modal">
+        <div class="modal-content" id="modalContent">
+            <!-- Contenido dinámico -->
+        </div>
+    </div>
 
-        // Cargar datos al iniciar
+    <script>
+        // Variables globales
+        let datosUsuarios = [];
+        let modoCompacto = false;
+        let ultimaCarga = null;
+        const API_URL = 'https://script.google.com/macros/s/AKfycbzZyl74E69yo_loyl-YATIksZgnGbMKU1ntDueYnyqcnWE8KM6nPpn3c0g0r2DfjKDb/exec';
+
+        // Inicializar
         document.addEventListener('DOMContentLoaded', function() {
-            console.log('✅ Panel público cargado');
+            console.log('🎄 Aplicación lista');
             actualizarReloj();
             cargarDatos();
-            setInterval(actualizarReloj, 1000);
-            startPolling(); // Inicia el polling controlado
+            
+            // Actualizar reloj cada minuto
+            setInterval(actualizarReloj, 60000);
+            
+            // Cerrar modal con ESC
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape') cerrarModal();
+            });
         });
 
-        function startPolling() {
-            if (pollingTimer) clearInterval(pollingTimer);
-            pollingTimer = setInterval(cargarDatos, pollingIntervalMs);
-        }
-
-        function stopPolling() {
-            if (pollingTimer) {
-                clearInterval(pollingTimer);
-                pollingTimer = null;
+        // Función principal para cargar datos
+        async function cargarDatos() {
+            const contenedor = document.getElementById('contenedor');
+            
+            // Mostrar estado de carga
+            contenedor.innerHTML = `
+                <div class="loading">
+                    <div class="spinner"></div>
+                    <p>Actualizando lista...</p>
+                </div>
+            `;
+            
+            try {
+                console.log('📡 Obteniendo datos...');
+                const respuesta = await fetch(API_URL);
+                
+                if (!respuesta.ok) {
+                    throw new Error(`Error ${respuesta.status}: ${respuesta.statusText}`);
+                }
+                
+                const datos = await respuesta.json();
+                console.log('✅ Datos recibidos:', datos);
+                
+                // Actualizar UI
+                mostrarDatos(datos);
+                ultimaCarga = new Date();
+                
+            } catch (error) {
+                console.error('❌ Error:', error);
+                mostrarError('Error al cargar datos. Verifica tu conexión.');
             }
         }
 
-async function cargarDatos() {
-    console.log('🔄 Intentando cargar datos desde Google Sheets...');
-    const contenedor = document.getElementById('contenedor');
-
-    // Mostrar loading solo la primera vez o si no hay datos cargados
-    if (!lastSignature) {
-        contenedor.innerHTML = `
-            <div class="loading">
-                <div class="loading-spinner"></div>
-                <h2>Conectando con Google Sheets...</h2>
-                <p>Obteniendo datos en tiempo real</p>
-            </div>
-        `;
-    }
-
-    try {
-        // Cancelar petición anterior si existe
-        if (currentAbortController) {
-            currentAbortController.abort();
-        }
-        currentAbortController = new AbortController();
-        const datosReales = await obtenerDatosDesdeSheets({ signal: currentAbortController.signal });
-
-        if (!datosReales) {
-            console.warn('Respuesta vacía de obtenerDatosDesdeSheets');
-            return;
-        }
-
-        // Crear firma simple para detectar cambios (timestamp + total)
-        const signature = ((datosReales.timestamp || '') + '|' + (datosReales.total || (datosReales.data ? datosReales.data.length : 0)));
-
-        if (signature !== lastSignature) {
-            console.log('🔁 Cambio detectado — actualizando UI');
-            lastSignature = signature;
-            mostrarDatos(datosReales);
-        } else {
-            console.log('✔️ Sin cambios desde la última actualización');
-        }
-    } catch (error) {
-        if (error.name === 'AbortError') {
-            console.log('❌ Petición anterior abortada.');
-            return;
-        }
-        console.error('❌ Error:', error);
-        mostrarError(error);
-    } finally {
-        currentAbortController = null;
-    }
-}
-
-        // Ajuste en la función real para aceptar signal opcional
-async function obtenerDatosDesdeSheets(options = {}) {
-    try {
-        console.log('🔗 Conectando a:', API_URL);
-
-        // Llamar a tu API de Google Apps Script con posibilidad de abort
-        const response = await fetch(API_URL, { signal: options.signal });
-
-        if (!response.ok) {
-            throw new Error(`Error HTTP: ${response.status}`);
-        }
-
-        const resultado = await response.json();
-        console.log('✅ Datos recibidos:', resultado);
-
-        return resultado;
-
-    } catch (error) {
-        console.error('❌ Error al obtener datos:', error);
-
-        // Si fue abort, propagar para que el caller lo maneje
-        if (error.name === 'AbortError') throw error;
-
-        // En caso de error, devolver estructura vacía (no actualiza UI excepto para mostrarError)
-        return {
-            success: false,
-            data: [],
-            total: 0,
-            message: "Error de conexión: " + (error.message || error),
-            timestamp: new Date().toLocaleString('es-ES')
-        };
-    }
-}
-        
-        // ============================================
-// CONFIGURACIÓN - ¡PEGA AQUÍ TU URL!
-// ============================================
-// PEGA AQUÍ LA URL QUE COPIAS DEL PASO 2
-const API_URL = 'https://script.google.com/macros/s/AKfycbzZyl74E69yo_loyl-YATIksZgnGbMKU1ntDueYnyqcnWE8KM6nPpn3c0g0r2DfjKDb/exec';
-
-// ============================================
-// FUNCIÓN REAL PARA OBTENER DATOS
-// ============================================
-async function obtenerDatosDesdeSheets() {
-    try {
-        console.log('🔗 Conectando a:', API_URL);
-        
-        // Llamar a tu API de Google Apps Script
-        const response = await fetch(API_URL);
-        
-        if (!response.ok) {
-            throw new Error(`Error HTTP: ${response.status}`);
-        }
-        
-        const resultado = await response.json();
-        console.log('✅ Datos recibidos:', resultado);
-        
-        return resultado;
-        
-    } catch (error) {
-        console.error('❌ Error al obtener datos:', error);
-        
-        // En caso de error, devolver estructura vacía
-        return {
-            success: false,
-            data: [],
-            total: 0,
-            message: "Error de conexión: " + error.message,
-            timestamp: new Date().toLocaleString('es-ES')
-        };
-    }
-}
-        
-        // Mostrar datos en el panel
+        // Mostrar datos en la UI
         function mostrarDatos(respuesta) {
-            console.log('📊 Datos recibidos:', respuesta);
-            
             if (!respuesta.success) {
-                mostrarError(respuesta.mensaje || 'Error desconocido');
+                mostrarError(respuesta.mensaje || 'Error en los datos');
                 return;
             }
             
             datosUsuarios = respuesta.data || [];
-            const totalRegalos = datosUsuarios.reduce((total, usuario) => total + (usuario.regalos ? usuario.regalos.length : 0), 0);
+            const totalRegalos = datosUsuarios.reduce((total, usuario) => {
+                return total + (usuario.regalos ? usuario.regalos.length : 0);
+            }, 0);
             
             // Actualizar estadísticas
             document.getElementById('totalPersonas').textContent = datosUsuarios.length;
             document.getElementById('totalRegalos').textContent = totalRegalos;
-            document.getElementById('ultimaActualizacion').textContent = respuesta.timestamp || 'Ahora';
-            document.getElementById('fechaHora').textContent = new Date().toLocaleString('es-ES', {
-                weekday: 'long',
-                year: 'numeric',
-                month: 'long',
-                day: 'numeric',
-                hour: '2-digit',
-                minute: '2-digit'
-            });
+            document.getElementById('ultimaActualizacion').textContent = 
+                respuesta.timestamp ? respuesta.timestamp.split(' ')[1].substr(0, 5) : 'Ahora';
             
             // Generar tarjetas
             generarTarjetas(datosUsuarios);
         }
-        
-        // Generar tarjetas HTML
+
+        // Generar tarjetas de usuarios
         function generarTarjetas(usuarios) {
             const contenedor = document.getElementById('contenedor');
             
             if (!usuarios || usuarios.length === 0) {
                 contenedor.innerHTML = `
-                    <div class="empty-state">
-                        <h2><i class="fas fa-box-open"></i> No hay registros aún</h2>
-                        <p>Cuando las personas completen el formulario, aparecerán aquí automáticamente.</p>
-                        <p style="margin-top: 20px; color: #666;">Actualiza la página en unos minutos</p>
-                        <button onclick="cargarDatos()" class="btn btn-primary" style="margin-top:30px;">
-                            <i class="fas fa-redo"></i> Reintentar
-                        </button>
+                    <div class="loading">
+                        <i class="fas fa-box-open" style="font-size: 2em; color: #ccc; margin-bottom: 15px;"></i>
+                        <p>No hay registros todavía</p>
+                        <p style="font-size: 0.9em; color: #666; margin-top: 10px;">
+                            Cuando alguien agregue sus deseos, aparecerán aquí
+                        </p>
                     </div>
                 `;
                 return;
@@ -752,31 +672,21 @@ async function obtenerDatosDesdeSheets() {
             let html = '';
             
             usuarios.forEach((usuario, index) => {
-                // Determinar color para mostrar
-                let colorBox = '';
+                // Color favorito
+                let colorHTML = '';
                 if (usuario.color && !usuario.color.toLowerCase().includes('no')) {
-                    const colorMap = {
-                        'rojo': '#ff0000', 'red': '#ff0000',
-                        'azul': '#0000ff', 'blue': '#0000ff',
-                        'verde': '#008000', 'green': '#008000',
-                        'amarillo': '#ffff00', 'yellow': '#ffff00',
-                        'negro': '#000000', 'black': '#000000',
-                        'blanco': '#ffffff', 'white': '#ffffff',
-                        'rosa': '#ff69b4', 'pink': '#ff69b4',
-                        'morado': '#800080', 'purple': '#800080',
-                        'naranja': '#ffa500', 'orange': '#ffa500',
-                        'gris': '#808080', 'gray': '#808080',
-                        'marrón': '#8b4513', 'brown': '#8b4513',
-                        'celeste': '#87ceeb', 'turquesa': '#40e0d0',
-                        'violeta': '#ee82ee', 'beige': '#f5f5dc'
+                    const colores = {
+                        'rojo': '#ff0000', 'azul': '#0000ff', 'verde': '#008000',
+                        'amarillo': '#ffff00', 'rosa': '#ff69b4', 'morado': '#800080',
+                        'naranja': '#ffa500', 'negro': '#000000', 'blanco': '#ffffff'
                     };
                     
                     const colorLower = usuario.color.toLowerCase();
-                    const colorHex = colorMap[colorLower] || usuario.color;
+                    const colorHex = colores[colorLower] || usuario.color;
                     
-                    if (colorHex.startsWith('#') || Object.values(colorMap).includes(colorHex)) {
-                        colorBox = `
-                            <div class="color-display">
+                    if (colorHex) {
+                        colorHTML = `
+                            <div class="color-preview">
                                 <div class="color-box" style="background-color:${colorHex}"></div>
                                 <span>${usuario.color}</span>
                             </div>
@@ -784,283 +694,176 @@ async function obtenerDatosDesdeSheets() {
                     }
                 }
                 
-                // Generar HTML de la tarjeta
-                html += `
-                    <div class="user-card" onclick="ampliarUsuario(${index})">
-                        <div class="card-number">${index + 1}</div>
-                        
-                        <div class="user-name">
-                            <i class="fas fa-user-circle"></i> ${usuario.nombre}
-                        </div>
-                        
-                        <div class="section">
-                            <div class="section-title">
-                                <i class="fas fa-gifts"></i> REGALOS DESEADOS
+                // Tarjeta compacta o normal
+                if (modoCompacto) {
+                    html += `
+                        <div class="user-card" onclick="mostrarDetalle(${index})">
+                            <div class="user-number">${index + 1}</div>
+                            <div class="user-name">
+                                <i class="fas fa-user"></i> ${usuario.nombre}
                             </div>
-                            <ul class="gift-list">
-                `;
-                
-                // Mostrar regalos
-                if (usuario.regalos && usuario.regalos.length > 0) {
-                    usuario.regalos.forEach((regalo, regaloIndex) => {
-                        if (regalo && regalo.toString().trim() !== '') {
-                            html += `
-                                <li class="gift-item">
-                                    <span><i class="fas fa-star fa-xs" style="color: #FFD700;"></i> ${regalo}</span>
-                                    <span class="gift-number">Opción ${regaloIndex + 1}</span>
-                                </li>
-                            `;
-                        }
-                    });
+                            <div class="section">
+                                <div class="section-title">
+                                    <i class="fas fa-gifts"></i> ${usuario.regalos?.length || 0} regalos
+                                </div>
+                            </div>
+                        </div>
+                    `;
                 } else {
-                    html += `<li class="gift-item">Sin preferencias específicas</li>`;
+                    html += `
+                        <div class="user-card" onclick="mostrarDetalle(${index})">
+                            <div class="user-number">${index + 1}</div>
+                            <div class="user-name">
+                                <i class="fas fa-user"></i> ${usuario.nombre}
+                            </div>
+                            
+                            <div class="section">
+                                <div class="section-title">
+                                    <i class="fas fa-gifts"></i> Regalos deseados
+                                </div>
+                                <ul class="gift-list">
+                                    ${(usuario.regalos || []).slice(0, 3).map((regalo, i) => `
+                                        <li class="gift-item">
+                                            <span>${regalo || 'Sin especificar'}</span>
+                                            <span class="gift-number">${i + 1}</span>
+                                        </li>
+                                    `).join('')}
+                                    ${usuario.regalos && usuario.regalos.length > 3 ? 
+                                        `<li class="gift-item" style="justify-content: center; color: #666; font-style: italic;">
+                                            + ${usuario.regalos.length - 3} más...
+                                        </li>` : ''}
+                                </ul>
+                            </div>
+                            
+                            <div class="section">
+                                <div class="section-title">
+                                    <i class="fas fa-palette"></i> Color favorito
+                                </div>
+                                ${colorHTML || `<p>${usuario.color || 'Sin preferencia'}</p>`}
+                            </div>
+                        </div>
+                    `;
                 }
-                
-                html += `
-                            </ul>
-                        </div>
-                        
-                        <div class="section">
-                            <div class="section-title">
-                                <i class="fas fa-ruler"></i> TALLA
-                            </div>
-                            <p><i class="fas fa-tshirt"></i> ${usuario.talla}</p>
-                        </div>
-                        
-                        <div class="section">
-                            <div class="section-title">
-                                <i class="fas fa-palette"></i> COLOR FAVORITO
-                            </div>
-                            ${colorBox || `<p>${usuario.color}</p>`}
-                        </div>
-                        
-                        <div class="section">
-                            <div class="section-title">
-                                <i class="fas fa-ban"></i> NO DESEA
-                            </div>
-                            <div class="no-preference">
-                                <i class="fas fa-exclamation-circle"></i> ${usuario.noQuiere}
-                            </div>
-                        </div>
-                    </div>
-                `;
             });
             
             contenedor.innerHTML = html;
         }
-        
-        // Ampliar información del usuario
-        function ampliarUsuario(index) {
+
+        // Mostrar detalles en modal
+        function mostrarDetalle(index) {
             const usuario = datosUsuarios[index];
             if (!usuario) return;
             
-            // Crear modal
-            const modalHTML = `
-                <div class="modal-overlay">
-                    <div class="modal-content">
-                        <button class="modal-close" onclick="this.parentElement.parentElement.remove()">
-                            <i class="fas fa-times"></i>
-                        </button>
-                        
-                        <div style="text-align:center; margin-bottom:30px;">
-                            <h2 style="color:#3498db; font-size:2.5em; margin-bottom:15px;">
-                                <i class="fas fa-user-circle"></i> ${usuario.nombre}
-                            </h2>
-                            <div style="background:#3498db; color:white; padding:10px 30px; border-radius:30px; display:inline-block; font-weight:bold; font-size:1.1em;">
-                                Registro #${usuario.id}
-                            </div>
+            const modal = document.getElementById('modalDetalle');
+            const contenido = document.getElementById('modalContent');
+            
+            contenido.innerHTML = `
+                <div class="modal-header">
+                    <h2 style="margin: 0; font-size: 1.4em;">
+                        <i class="fas fa-user-circle"></i> ${usuario.nombre}
+                    </h2>
+                    <button class="modal-close" onclick="cerrarModal()">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                
+                <div style="padding: 20px;">
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 20px;">
+                        <div style="background: #f8f9fa; padding: 15px; border-radius: 10px;">
+                            <strong><i class="fas fa-ruler"></i> Talla</strong>
+                            <p style="margin-top: 8px; font-size: 1.1em;">${usuario.talla || 'No especificada'}</p>
                         </div>
-                        
-                        <div style="display:grid; grid-template-columns:1fr 1fr; gap:30px; margin-bottom:30px;">
-                            <div style="background:#f8f9fa; padding:25px; border-radius:15px;">
-                                <h3><i class="fas fa-ruler"></i> Talla</h3>
-                                <p style="font-size:1.8em; font-weight:bold; color:#2c3e50; margin-top:15px;">${usuario.talla}</p>
-                            </div>
-                            <div style="background:#f8f9fa; padding:25px; border-radius:15px;">
-                                <h3><i class="fas fa-palette"></i> Color Favorito</h3>
-                                <p style="font-size:1.8em; font-weight:bold; color:#2c3e50; margin-top:15px;">${usuario.color}</p>
-                            </div>
+                        <div style="background: #f8f9fa; padding: 15px; border-radius: 10px;">
+                            <strong><i class="fas fa-palette"></i> Color favorito</strong>
+                            <p style="margin-top: 8px; font-size: 1.1em;">${usuario.color || 'Sin preferencia'}</p>
                         </div>
-                        
-                        <div style="background:#e8f5e8; padding:30px; border-radius:15px; margin-bottom:30px;">
-                            <h3 style="color:#2ecc71; margin-bottom:20px; font-size:1.5em;">
-                                <i class="fas fa-gifts"></i> Lista de Regalos Deseados
-                            </h3>
-                            <ol style="font-size:1.2em; padding-left:20px;">
-                                ${usuario.regalos.map((regalo, i) => `
-                                    <li style="margin-bottom:20px; padding:20px; background:white; border-radius:12px; border-left:6px solid #2ecc71; box-shadow:0 4px 10px rgba(0,0,0,0.1);">
-                                        <strong style="color:#3498db; font-size:1.2em;">Opción ${i + 1}:</strong><br>
-                                        <span style="font-size:1.1em;">${regalo}</span>
-                                    </li>
-                                `).join('')}
-                            </ol>
-                        </div>
-                        
-                        <div style="background:#fff5f5; padding:25px; border-radius:15px;">
-                            <h3 style="color:#e74c3c; margin-bottom:15px; font-size:1.5em;">
-                                <i class="fas fa-exclamation-triangle"></i> Preferencias
-                            </h3>
-                            <p style="font-size:1.3em; font-style:italic;">${usuario.noQuiere}</p>
-                        </div>
-                        
-                        <button onclick="this.parentElement.parentElement.remove()" 
-                                style="margin-top:40px; padding:18px 40px; background:#3498db; color:white; border:none; border-radius:12px; cursor:pointer; font-size:1.2em; font-weight:bold; width:100%; transition:all 0.3s;">
-                            <i class="fas fa-times"></i> Cerrar Vista Detallada
-                        </button>
                     </div>
+                    
+                    <div style="margin-bottom: 20px;">
+                        <h3 style="color: var(--green); margin-bottom: 15px;">
+                            <i class="fas fa-gifts"></i> Lista de regalos
+                        </h3>
+                        <ol style="padding-left: 20px;">
+                            ${(usuario.regalos || []).map((regalo, i) => `
+                                <li style="margin-bottom: 10px; padding: 12px; background: #f0fff4; border-radius: 8px;">
+                                    <strong style="color: var(--navy);">Opción ${i + 1}:</strong><br>
+                                    ${regalo || 'Sin especificar'}
+                                </li>
+                            `).join('')}
+                        </ol>
+                    </div>
+                    
+                    ${usuario.noQuiere ? `
+                        <div style="background: #fff5f5; padding: 15px; border-radius: 10px; border-left: 4px solid var(--red);">
+                            <strong><i class="fas fa-exclamation-triangle"></i> Preferencias</strong>
+                            <p style="margin-top: 8px; font-style: italic;">${usuario.noQuiere}</p>
+                        </div>
+                    ` : ''}
                 </div>
             `;
             
-            const modal = document.createElement('div');
-            modal.innerHTML = modalHTML;
-            document.body.appendChild(modal);
+            modal.style.display = 'flex';
         }
-        
+
+        // Cerrar modal
+        function cerrarModal() {
+            document.getElementById('modalDetalle').style.display = 'none';
+        }
+
         // Mostrar error
-        function mostrarError(error) {
-            console.error('❌ Error:', error);
+        function mostrarError(mensaje) {
             const contenedor = document.getElementById('contenedor');
             contenedor.innerHTML = `
-                <div class="error-container">
-                    <h2 style="color:#e74c3c; font-size:2em; margin-bottom:20px;">
-                        <i class="fas fa-exclamation-triangle"></i> Error de Conexión
-                    </h2>
-                    <p style="margin:20px 0; font-size:1.2em;">No se pudo conectar con la base de datos.</p>
-                    <p style="background:#fff5f5; padding:15px; border-radius:10px; margin:20px 0;">
-                        <strong>Detalles:</strong> ${error.message || error}
-                    </p>
-                    <div style="background:#f8f9fa; padding:25px; border-radius:15px; margin:30px 0; text-align:left;">
-                        <h3 style="color:#2c3e50; margin-bottom:15px;">Posibles soluciones:</h3>
-                        <ol style="line-height:2.0; padding-left:20px;">
-                            <li>Verifica tu conexión a internet</li>
-                            <li>Actualiza la página (F5)</li>
-                            <li>Espera unos minutos e intenta de nuevo</li>
-                        </ol>
+                <div style="grid-column: 1 / -1; text-align: center; padding: 40px 20px;">
+                    <div style="background: #fff5f5; padding: 25px; border-radius: 12px; border: 2px solid #ffcccc;">
+                        <i class="fas fa-exclamation-triangle" style="font-size: 2em; color: #e74c3c; margin-bottom: 15px;"></i>
+                        <h3 style="color: #c62828; margin-bottom: 10px;">Error de conexión</h3>
+                        <p style="color: #666; margin-bottom: 20px;">${mensaje}</p>
+                        <button onclick="cargarDatos()" class="btn btn-primary">
+                            <i class="fas fa-redo"></i> Reintentar
+                        </button>
                     </div>
-                    <button onclick="cargarDatos()" class="btn btn-primary" style="padding:15px 40px; font-size:1.2em;">
-                        <i class="fas fa-redo"></i> Reintentar Conexión
-                    </button>
                 </div>
             `;
         }
-        
-        // ============================================
-        // FUNCIONES AUXILIARES
-        // ============================================
-        
-        function toggleFullscreen() {
-            if (!document.fullscreenElement) {
-                document.documentElement.requestFullscreen().catch(err => {
-                    console.error(`Error: ${err.message}`);
-                });
-            } else {
-                if (document.exitFullscreen) {
-                    document.exitFullscreen();
-                }
-            }
-        }
-        
+
+        // Funciones auxiliares
         function actualizarReloj() {
             const ahora = new Date();
             const fechaHora = ahora.toLocaleString('es-ES', {
-                weekday: 'long',
-                year: 'numeric',
-                month: 'long',
-                day: 'numeric',
+                day: '2-digit',
+                month: '2-digit',
                 hour: '2-digit',
-                minute: '2-digit',
-                second: '2-digit'
+                minute: '2-digit'
             });
             document.getElementById('fechaHora').textContent = fechaHora;
         }
-        
+
         function imprimirLista() {
             window.print();
         }
-        
-        function modoNavidad() {
-            modoNavidadActivo = !modoNavidadActivo;
-            const body = document.body;
-            const header = document.querySelector('.header');
+
+        function toggleModoCompacto() {
+            modoCompacto = !modoCompacto;
+            const boton = event.target.closest('.btn');
+            boton.innerHTML = `
+                <i class="fas fa-${modoCompacto ? 'expand' : 'compress'}"></i>
+                ${modoCompacto ? 'Expandir' : 'Compacto'}
+            `;
             
-            if (modoNavidadActivo) {
-                // Activar modo navidad
-                body.style.background = 'linear-gradient(135deg, #1a5276, #145a32)';
-                header.style.background = 'linear-gradient(to right, #c0392b, #e74c3c)';
-                
-                // Agregar efectos de nieve
-                agregarNieve();
-                
-                // Cambiar texto del botón
-                event.target.innerHTML = '<i class="fas fa-home"></i> MODO NORMAL';
-                event.target.style.background = '#27ae60';
-                
-            } else {
-                // Desactivar modo navidad
-                body.style.background = 'linear-gradient(135deg, #1a2980, #26d0ce)';
-                header.style.background = 'linear-gradient(to right, #2c3e50, #3498db)';
-                
-                // Quitar nieve
-                document.querySelectorAll('.snowflake').forEach(snow => snow.remove());
-                
-                // Cambiar texto del botón
-                event.target.innerHTML = '<i class="fas fa-tree"></i> MODO NAVIDAD';
-                event.target.style.background = '#f39c12';
+            // Regenerar tarjetas con el nuevo modo
+            if (datosUsuarios.length > 0) {
+                generarTarjetas(datosUsuarios);
             }
         }
-        
-        function agregarNieve() {
-            for (let i = 0; i < 30; i++) {
-                setTimeout(() => {
-                    const snowflake = document.createElement('div');
-                    snowflake.className = 'snowflake';
-                    snowflake.innerHTML = '❄';
-                    snowflake.style.cssText = `
-                        position: fixed;
-                        color: white;
-                        font-size: ${Math.random() * 20 + 15}px;
-                        top: -30px;
-                        left: ${Math.random() * 100}vw;
-                        animation: fall ${Math.random() * 5 + 3}s linear infinite;
-                        z-index: 999;
-                        opacity: ${Math.random() * 0.7 + 0.3};
-                        pointer-events: none;
-                    `;
-                    document.body.appendChild(snowflake);
-                    
-                    // Eliminar después de la animación
-                    setTimeout(() => {
-                        if (snowflake.parentNode) {
-                            snowflake.parentNode.removeChild(snowflake);
-                        }
-                    }, 8000);
-                }, i * 200);
+
+        // Cerrar modal al hacer click fuera
+        window.onclick = function(event) {
+            const modal = document.getElementById('modalDetalle');
+            if (event.target == modal) {
+                cerrarModal();
             }
-            
-            // Agregar keyframes para animación
-            if (!document.querySelector('#snow-animation')) {
-                const style = document.createElement('style');
-                style.id = 'snow-animation';
-                style.textContent = `
-                    @keyframes fall {
-                        0% {
-                            transform: translateY(0) rotate(0deg);
-                        }
-                        100% {
-                            transform: translateY(100vh) rotate(360deg);
-                        }
-                    }
-                `;
-                document.head.appendChild(style);
-            }
-        }
-        
-        // Cerrar modal con ESC
-        document.addEventListener('keydown', function(e) {
-            if (e.key === 'Escape') {
-                document.querySelectorAll('.modal-overlay').forEach(modal => modal.remove());
-            }
-        });
+        };
     </script>
 </body>
 </html>
