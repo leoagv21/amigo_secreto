@@ -1,0 +1,1004 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎁 Lista de Regalos Navideños</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* RESET Y VARIABLES */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #2c3e50;
+            --secondary: #3498db;
+            --accent: #e74c3c;
+            --success: #2ecc71;
+            --light: #ecf0f1;
+            --dark: #2c3e50;
+            --shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1a2980, #26d0ce);
+            min-height: 100vh;
+            padding: 20px;
+            color: #333;
+        }
+
+        /* CONTAINER PRINCIPAL */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.98);
+            border-radius: 25px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+
+        /* HEADER */
+        .header {
+            background: linear-gradient(to right, #2c3e50, #3498db);
+            color: white;
+            padding: 40px 30px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: "🎄";
+            position: absolute;
+            font-size: 300px;
+            opacity: 0.05;
+            top: -100px;
+            right: -50px;
+            transform: rotate(15deg);
+        }
+
+        .header h1 {
+            font-size: 3.2em;
+            margin-bottom: 15px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            position: relative;
+            z-index: 2;
+        }
+
+        .header .subtitle {
+            font-size: 1.3em;
+            opacity: 0.9;
+            margin-bottom: 25px;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* ESTADÍSTICAS */
+        .stats-container {
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+            margin: 30px 0;
+            flex-wrap: wrap;
+            position: relative;
+            z-index: 2;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 25px 35px;
+            border-radius: 20px;
+            text-align: center;
+            min-width: 200px;
+            box-shadow: var(--shadow);
+            transition: transform 0.3s, box-shadow 0.3s;
+            border-top: 5px solid var(--success);
+        }
+
+        .stat-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+        }
+
+        .stat-number {
+            font-size: 3em;
+            font-weight: bold;
+            color: var(--secondary);
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        .stat-label {
+            color: #666;
+            font-size: 1.1em;
+            font-weight: 600;
+        }
+
+        /* CONTROLES */
+        .controls {
+            padding: 25px;
+            background: var(--light);
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 15px 30px;
+            border: none;
+            border-radius: 50px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 1.1em;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            min-width: 200px;
+        }
+
+        .btn-primary {
+            background: var(--secondary);
+            color: white;
+        }
+
+        .btn-success {
+            background: var(--success);
+            color: white;
+        }
+
+        .btn-warning {
+            background: #f39c12;
+            color: white;
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+
+        /* TARJETAS DE USUARIOS */
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+            gap: 30px;
+            padding: 40px;
+            max-height: 70vh;
+            overflow-y: auto;
+        }
+
+        .user-card {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: var(--shadow);
+            transition: all 0.3s;
+            position: relative;
+            border-top: 8px solid var(--secondary);
+            cursor: pointer;
+        }
+
+        .user-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+        }
+
+        .card-number {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: var(--accent);
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.4em;
+            box-shadow: 0 4px 10px rgba(231, 76, 60, 0.3);
+        }
+
+        .user-name {
+            font-size: 1.8em;
+            color: var(--dark);
+            font-weight: bold;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 3px solid var(--light);
+        }
+
+        /* SECCIONES DENTRO DE LAS TARJETAS */
+        .section {
+            margin-bottom: 25px;
+        }
+
+        .section-title {
+            color: var(--secondary);
+            font-size: 1.2em;
+            font-weight: bold;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .gift-list {
+            list-style: none;
+        }
+
+        .gift-item {
+            background: #f8f9fa;
+            padding: 15px;
+            margin-bottom: 12px;
+            border-radius: 12px;
+            border-left: 5px solid var(--success);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.3s;
+        }
+
+        .gift-item:hover {
+            background: #e8f4fc;
+            transform: translateX(5px);
+        }
+
+        .gift-number {
+            background: var(--secondary);
+            color: white;
+            padding: 6px 15px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            font-weight: bold;
+        }
+
+        /* COLOR FAVORITO */
+        .color-display {
+            display: inline-flex;
+            align-items: center;
+            gap: 15px;
+            margin-top: 10px;
+        }
+
+        .color-box {
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            border: 3px solid white;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        }
+
+        /* PREFERENCIAS (NO QUIERE) */
+        .no-preference {
+            background: #fff5f5;
+            padding: 20px;
+            border-radius: 15px;
+            border-left: 5px solid var(--accent);
+            font-style: italic;
+            color: #666;
+            margin-top: 10px;
+        }
+
+        /* LOADING */
+        .loading {
+            text-align: center;
+            padding: 80px 20px;
+            grid-column: 1 / -1;
+        }
+
+        .loading-spinner {
+            border: 8px solid #f3f3f3;
+            border-top: 8px solid var(--secondary);
+            border-radius: 50%;
+            width: 80px;
+            height: 80px;
+            animation: spin 1.5s linear infinite;
+            margin: 0 auto 30px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* ERROR */
+        .error-container {
+            background: white;
+            padding: 60px;
+            border-radius: 25px;
+            text-align: center;
+            grid-column: 1 / -1;
+            box-shadow: var(--shadow);
+        }
+
+        /* VACÍO */
+        .empty-state {
+            text-align: center;
+            padding: 80px 20px;
+            background: white;
+            border-radius: 25px;
+            grid-column: 1 / -1;
+            box-shadow: var(--shadow);
+        }
+
+        /* FOOTER */
+        .footer {
+            text-align: center;
+            padding: 30px;
+            background: var(--dark);
+            color: white;
+            border-top: 8px solid var(--secondary);
+        }
+
+        .footer-info {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+        }
+
+        .timestamp {
+            background: rgba(255,255,255,0.1);
+            padding: 15px 30px;
+            border-radius: 50px;
+            display: inline-block;
+            font-weight: bold;
+        }
+
+        /* BOTÓN PANTALLA COMPLETA */
+        .fullscreen-btn {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: var(--secondary);
+            color: white;
+            border: none;
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            font-size: 1.8em;
+            cursor: pointer;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            transition: all 0.3s;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .fullscreen-btn:hover {
+            transform: scale(1.15);
+            background: #2980b9;
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2.2em;
+            }
+            
+            .cards-grid {
+                grid-template-columns: 1fr;
+                padding: 20px;
+            }
+            
+            .stat-card {
+                min-width: 150px;
+                padding: 20px;
+            }
+            
+            .stat-number {
+                font-size: 2.5em;
+            }
+            
+            .btn {
+                min-width: 100%;
+                margin-bottom: 10px;
+            }
+            
+            .controls {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .fullscreen-btn {
+                width: 60px;
+                height: 60px;
+                bottom: 20px;
+                right: 20px;
+            }
+        }
+
+        /* MODAL DE DETALLE */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.9);
+            z-index: 2000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 40px;
+            border-radius: 25px;
+            max-width: 700px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+            box-shadow: 0 30px 80px rgba(0,0,0,0.4);
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: var(--accent);
+            color: white;
+            border: none;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            font-size: 1.5em;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* IMPRESIÓN */
+        @media print {
+            body {
+                background: white !important;
+            }
+            
+            .container {
+                box-shadow: none !important;
+                border-radius: 0 !important;
+            }
+            
+            .btn, .fullscreen-btn, .controls {
+                display: none !important;
+            }
+            
+            .cards-grid {
+                max-height: none !important;
+                overflow: visible !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- HEADER -->
+        <div class="header">
+            <h1><i class="fas fa-gift"></i> LISTA DE REGALOS NAVIDEÑOS</h1>
+            <div class="subtitle">Regalos solicitados por cada persona - Panel Público</div>
+            
+            <div class="stats-container">
+                <div class="stat-card">
+                    <span class="stat-number" id="totalPersonas">0</span>
+                    <span class="stat-label">Personas Registradas</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-number" id="totalRegalos">0</span>
+                    <span class="stat-label">Regalos Solicitados</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-number" id="ultimaActualizacion">-</span>
+                    <span class="stat-label">Última Actualización</span>
+                </div>
+            </div>
+        </div>
+        
+        <!-- CONTROLES -->
+        <div class="controls">
+            <button class="btn btn-primary" onclick="cargarDatos()">
+                <i class="fas fa-sync-alt"></i> ACTUALIZAR LISTA
+            </button>
+            <button class="btn btn-success" onclick="imprimirLista()">
+                <i class="fas fa-print"></i> IMPRIMIR LISTA
+            </button>
+            <button class="btn btn-warning" onclick="modoNavidad()">
+                <i class="fas fa-tree"></i> MODO NAVIDAD
+            </button>
+        </div>
+        
+        <!-- TARJETAS DE USUARIOS -->
+        <div id="contenedor" class="cards-grid">
+            <div class="loading">
+                <div class="loading-spinner"></div>
+                <h2>Cargando lista de regalos...</h2>
+                <p>Conectando con la base de datos...</p>
+            </div>
+        </div>
+        
+        <!-- FOOTER -->
+        <div class="footer">
+            <div class="footer-info">
+                <div><i class="fas fa-info-circle"></i> Este panel se actualiza automáticamente</div>
+                <div><i class="fas fa-mobile-alt"></i> Funciona en todos los dispositivos</div>
+            </div>
+            <div class="timestamp">
+                <i class="fas fa-clock"></i> 
+                <span id="fechaHora">Cargando...</span>
+            </div>
+            <p style="margin-top: 20px; opacity: 0.8; font-size: 0.9em;">
+                Comparte este enlace con todos los participantes
+            </p>
+        </div>
+    </div>
+    
+    <!-- BOTÓN PANTALLA COMPLETA -->
+    <button class="fullscreen-btn" onclick="toggleFullscreen()" title="Pantalla Completa">
+        <i class="fas fa-expand"></i>
+    </button>
+
+    <script>
+        // ============================================
+        // VARIABLES GLOBALES
+        // ============================================
+        let datosUsuarios = [];
+        let modoNavidadActivo = false;
+        
+        // ============================================
+        // FUNCIONES PRINCIPALES
+        // ============================================
+        
+        // Cargar datos al iniciar
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('✅ Panel público cargado');
+            actualizarReloj();
+            cargarDatos();
+            setInterval(actualizarReloj, 1000);
+            setInterval(cargarDatos, 30000); // Auto-refresh cada 30 segundos
+        });
+        
+        // Función para cargar datos desde Google Sheets
+        async function cargarDatos() {
+            console.log('🔄 Solicitando datos...');
+            const contenedor = document.getElementById('contenedor');
+            
+            // Mostrar loading
+            contenedor.innerHTML = `
+                <div class="loading">
+                    <div class="loading-spinner"></div>
+                    <h2>Actualizando lista...</h2>
+                    <p>Obteniendo datos más recientes</p>
+                </div>
+            `;
+            
+            try {
+                // Esta es la parte CRÍTICA - Necesitas conectar con tu Google Sheets
+                // Para esto necesitarás un backend simple
+                
+                // Por ahora, vamos a simular datos o usar una función local
+                // MÁS ADELANTE te explico cómo conectar con tu Google Sheets
+                
+                // Simulación de datos (remplázalo con tu conexión real)
+                const datosSimulados = await obtenerDatosDesdeSheets();
+                mostrarDatos(datosSimulados);
+                
+            } catch (error) {
+                console.error('❌ Error:', error);
+                mostrarError(error);
+            }
+        }
+        
+        // Función SIMULADA para obtener datos
+        async function obtenerDatosDesdeSheets() {
+            // ESTA ES LA PARTE QUE DEBES MODIFICAR
+            // Te explico después cómo hacerlo
+            
+            // Por ahora, devolvemos datos de ejemplo
+            return {
+                success: true,
+                data: [
+                    {
+                        id: 1,
+                        nombre: "Juan Pérez",
+                        regalos: ["Camiseta de futbol", "Libro de cocina", "Auriculares"],
+                        talla: "M",
+                        color: "Azul",
+                        noQuiere: "Nada de ropa interior"
+                    },
+                    {
+                        id: 2,
+                        nombre: "María García",
+                        regalos: ["Perfume", "Bolso", "Reloj"],
+                        talla: "S",
+                        color: "Rosa",
+                        noQuiere: "Nada electrónico"
+                    },
+                    {
+                        id: 3,
+                        nombre: "Carlos López",
+                        regalos: ["Zapatillas deportivas", "Gorra", "Mochila"],
+                        talla: "42",
+                        color: "Negro",
+                        noQuiere: "Sin preferencias"
+                    }
+                ],
+                total: 3,
+                timestamp: new Date().toLocaleString('es-ES')
+            };
+        }
+        
+        // Mostrar datos en el panel
+        function mostrarDatos(respuesta) {
+            console.log('📊 Datos recibidos:', respuesta);
+            
+            if (!respuesta.success) {
+                mostrarError(respuesta.mensaje || 'Error desconocido');
+                return;
+            }
+            
+            datosUsuarios = respuesta.data || [];
+            const totalRegalos = datosUsuarios.reduce((total, usuario) => total + (usuario.regalos ? usuario.regalos.length : 0), 0);
+            
+            // Actualizar estadísticas
+            document.getElementById('totalPersonas').textContent = datosUsuarios.length;
+            document.getElementById('totalRegalos').textContent = totalRegalos;
+            document.getElementById('ultimaActualizacion').textContent = respuesta.timestamp || 'Ahora';
+            document.getElementById('fechaHora').textContent = new Date().toLocaleString('es-ES', {
+                weekday: 'long',
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
+            });
+            
+            // Generar tarjetas
+            generarTarjetas(datosUsuarios);
+        }
+        
+        // Generar tarjetas HTML
+        function generarTarjetas(usuarios) {
+            const contenedor = document.getElementById('contenedor');
+            
+            if (!usuarios || usuarios.length === 0) {
+                contenedor.innerHTML = `
+                    <div class="empty-state">
+                        <h2><i class="fas fa-box-open"></i> No hay registros aún</h2>
+                        <p>Cuando las personas completen el formulario, aparecerán aquí automáticamente.</p>
+                        <p style="margin-top: 20px; color: #666;">Actualiza la página en unos minutos</p>
+                        <button onclick="cargarDatos()" class="btn btn-primary" style="margin-top:30px;">
+                            <i class="fas fa-redo"></i> Reintentar
+                        </button>
+                    </div>
+                `;
+                return;
+            }
+            
+            let html = '';
+            
+            usuarios.forEach((usuario, index) => {
+                // Determinar color para mostrar
+                let colorBox = '';
+                if (usuario.color && !usuario.color.toLowerCase().includes('no')) {
+                    const colorMap = {
+                        'rojo': '#ff0000', 'red': '#ff0000',
+                        'azul': '#0000ff', 'blue': '#0000ff',
+                        'verde': '#008000', 'green': '#008000',
+                        'amarillo': '#ffff00', 'yellow': '#ffff00',
+                        'negro': '#000000', 'black': '#000000',
+                        'blanco': '#ffffff', 'white': '#ffffff',
+                        'rosa': '#ff69b4', 'pink': '#ff69b4',
+                        'morado': '#800080', 'purple': '#800080',
+                        'naranja': '#ffa500', 'orange': '#ffa500',
+                        'gris': '#808080', 'gray': '#808080',
+                        'marrón': '#8b4513', 'brown': '#8b4513',
+                        'celeste': '#87ceeb', 'turquesa': '#40e0d0',
+                        'violeta': '#ee82ee', 'beige': '#f5f5dc'
+                    };
+                    
+                    const colorLower = usuario.color.toLowerCase();
+                    const colorHex = colorMap[colorLower] || usuario.color;
+                    
+                    if (colorHex.startsWith('#') || Object.values(colorMap).includes(colorHex)) {
+                        colorBox = `
+                            <div class="color-display">
+                                <div class="color-box" style="background-color:${colorHex}"></div>
+                                <span>${usuario.color}</span>
+                            </div>
+                        `;
+                    }
+                }
+                
+                // Generar HTML de la tarjeta
+                html += `
+                    <div class="user-card" onclick="ampliarUsuario(${index})">
+                        <div class="card-number">${index + 1}</div>
+                        
+                        <div class="user-name">
+                            <i class="fas fa-user-circle"></i> ${usuario.nombre}
+                        </div>
+                        
+                        <div class="section">
+                            <div class="section-title">
+                                <i class="fas fa-gifts"></i> REGALOS DESEADOS
+                            </div>
+                            <ul class="gift-list">
+                `;
+                
+                // Mostrar regalos
+                if (usuario.regalos && usuario.regalos.length > 0) {
+                    usuario.regalos.forEach((regalo, regaloIndex) => {
+                        if (regalo && regalo.toString().trim() !== '') {
+                            html += `
+                                <li class="gift-item">
+                                    <span><i class="fas fa-star fa-xs" style="color: #FFD700;"></i> ${regalo}</span>
+                                    <span class="gift-number">Opción ${regaloIndex + 1}</span>
+                                </li>
+                            `;
+                        }
+                    });
+                } else {
+                    html += `<li class="gift-item">Sin preferencias específicas</li>`;
+                }
+                
+                html += `
+                            </ul>
+                        </div>
+                        
+                        <div class="section">
+                            <div class="section-title">
+                                <i class="fas fa-ruler"></i> TALLA
+                            </div>
+                            <p><i class="fas fa-tshirt"></i> ${usuario.talla}</p>
+                        </div>
+                        
+                        <div class="section">
+                            <div class="section-title">
+                                <i class="fas fa-palette"></i> COLOR FAVORITO
+                            </div>
+                            ${colorBox || `<p>${usuario.color}</p>`}
+                        </div>
+                        
+                        <div class="section">
+                            <div class="section-title">
+                                <i class="fas fa-ban"></i> NO DESEA
+                            </div>
+                            <div class="no-preference">
+                                <i class="fas fa-exclamation-circle"></i> ${usuario.noQuiere}
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            contenedor.innerHTML = html;
+        }
+        
+        // Ampliar información del usuario
+        function ampliarUsuario(index) {
+            const usuario = datosUsuarios[index];
+            if (!usuario) return;
+            
+            // Crear modal
+            const modalHTML = `
+                <div class="modal-overlay">
+                    <div class="modal-content">
+                        <button class="modal-close" onclick="this.parentElement.parentElement.remove()">
+                            <i class="fas fa-times"></i>
+                        </button>
+                        
+                        <div style="text-align:center; margin-bottom:30px;">
+                            <h2 style="color:#3498db; font-size:2.5em; margin-bottom:15px;">
+                                <i class="fas fa-user-circle"></i> ${usuario.nombre}
+                            </h2>
+                            <div style="background:#3498db; color:white; padding:10px 30px; border-radius:30px; display:inline-block; font-weight:bold; font-size:1.1em;">
+                                Registro #${usuario.id}
+                            </div>
+                        </div>
+                        
+                        <div style="display:grid; grid-template-columns:1fr 1fr; gap:30px; margin-bottom:30px;">
+                            <div style="background:#f8f9fa; padding:25px; border-radius:15px;">
+                                <h3><i class="fas fa-ruler"></i> Talla</h3>
+                                <p style="font-size:1.8em; font-weight:bold; color:#2c3e50; margin-top:15px;">${usuario.talla}</p>
+                            </div>
+                            <div style="background:#f8f9fa; padding:25px; border-radius:15px;">
+                                <h3><i class="fas fa-palette"></i> Color Favorito</h3>
+                                <p style="font-size:1.8em; font-weight:bold; color:#2c3e50; margin-top:15px;">${usuario.color}</p>
+                            </div>
+                        </div>
+                        
+                        <div style="background:#e8f5e8; padding:30px; border-radius:15px; margin-bottom:30px;">
+                            <h3 style="color:#2ecc71; margin-bottom:20px; font-size:1.5em;">
+                                <i class="fas fa-gifts"></i> Lista de Regalos Deseados
+                            </h3>
+                            <ol style="font-size:1.2em; padding-left:20px;">
+                                ${usuario.regalos.map((regalo, i) => `
+                                    <li style="margin-bottom:20px; padding:20px; background:white; border-radius:12px; border-left:6px solid #2ecc71; box-shadow:0 4px 10px rgba(0,0,0,0.1);">
+                                        <strong style="color:#3498db; font-size:1.2em;">Opción ${i + 1}:</strong><br>
+                                        <span style="font-size:1.1em;">${regalo}</span>
+                                    </li>
+                                `).join('')}
+                            </ol>
+                        </div>
+                        
+                        <div style="background:#fff5f5; padding:25px; border-radius:15px;">
+                            <h3 style="color:#e74c3c; margin-bottom:15px; font-size:1.5em;">
+                                <i class="fas fa-exclamation-triangle"></i> Preferencias
+                            </h3>
+                            <p style="font-size:1.3em; font-style:italic;">${usuario.noQuiere}</p>
+                        </div>
+                        
+                        <button onclick="this.parentElement.parentElement.remove()" 
+                                style="margin-top:40px; padding:18px 40px; background:#3498db; color:white; border:none; border-radius:12px; cursor:pointer; font-size:1.2em; font-weight:bold; width:100%; transition:all 0.3s;">
+                            <i class="fas fa-times"></i> Cerrar Vista Detallada
+                        </button>
+                    </div>
+                </div>
+            `;
+            
+            const modal = document.createElement('div');
+            modal.innerHTML = modalHTML;
+            document.body.appendChild(modal);
+        }
+        
+        // Mostrar error
+        function mostrarError(error) {
+            console.error('❌ Error:', error);
+            const contenedor = document.getElementById('contenedor');
+            contenedor.innerHTML = `
+                <div class="error-container">
+                    <h2 style="color:#e74c3c; font-size:2em; margin-bottom:20px;">
+                        <i class="fas fa-exclamation-triangle"></i> Error de Conexión
+                    </h2>
+                    <p style="margin:20px 0; font-size:1.2em;">No se pudo conectar con la base de datos.</p>
+                    <p style="background:#fff5f5; padding:15px; border-radius:10px; margin:20px 0;">
+                        <strong>Detalles:</strong> ${error.message || error}
+                    </p>
+                    <div style="background:#f8f9fa; padding:25px; border-radius:15px; margin:30px 0; text-align:left;">
+                        <h3 style="color:#2c3e50; margin-bottom:15px;">Posibles soluciones:</h3>
+                        <ol style="line-height:2.0; padding-left:20px;">
+                            <li>Verifica tu conexión a internet</li>
+                            <li>Actualiza la página (F5)</li>
+                            <li>Espera unos minutos e intenta de nuevo</li>
+                        </ol>
+                    </div>
+                    <button onclick="cargarDatos()" class="btn btn-primary" style="padding:15px 40px; font-size:1.2em;">
+                        <i class="fas fa-redo"></i> Reintentar Conexión
+                    </button>
+                </div>
+            `;
+        }
+        
+        // ============================================
+        // FUNCIONES AUXILIARES
+        // ============================================
+        
+        function toggleFullscreen() {
+            if (!document.fullscreenElement) {
+                document.documentElement.requestFullscreen().catch(err => {
+                    console.error(`Error: ${err.message}`);
+                });
+            } else {
+                if (document.exitFullscreen) {
+                    document.exitFullscreen();
+                }
+            }
+        }
+        
+        function actualizarReloj() {
+            const ahora = new Date();
+            const fechaHora = ahora.toLocaleString('es-ES', {
+                weekday: 'long',
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit',
+                second: '2-digit'
+            });
+            document.getElementById('fechaHora').textContent = fechaHora;
+        }
+        
+        function imprimirLista() {
+            window.print();
+        }
+        
+        function modoNavidad() {
+            modoNavidadActivo = !modoNavidadActivo;
+            const body = document.body;
+            const header = document.querySelector('.header');
+            
+            if (modoNavidadActivo) {
+                // Activar modo navidad
+                body.style.background = 'linear-gradient(135deg, #1a5276, #145a32)';
+                header.style.background = 'linear-gradient(to right, #c0392b, #e74c3c)';
+                
+                // Agregar efectos de nieve
+                agregarNieve();
+                
+                // Cambiar texto del botón
+                event.target.innerHTML = '<i class="fas fa-home"></i> MODO NORMAL';
+                event.target.style.background = '#27ae60';
+                
+            } else {
+                // Desactivar modo navidad
+                body.style.background = 'linear-gradient(135deg, #1a2980, #26d0ce)';
+                header.style.background = 'linear-gradient(to right, #2c3e50, #3498db)';
+                
+                // Quitar nieve
+                document.querySelectorAll('.snowflake').forEach(snow => snow.remove());
+                
+                // Cambiar texto del botón
+                event.target.innerHTML = '<i class="fas fa-tree"></i> MODO NAVIDAD';
+                event.target.style.background = '#f39c12';
+            }
+        }
+        
+        function agregarNieve() {
+            for (let i = 0; i < 30; i++) {
+                setTimeout(() => {
+                    const snowflake = document.createElement('div');
+                    snowflake.className = 'snowflake';
+                    snowflake.innerHTML = '❄';
+                    snowflake.style.cssText = `
+                        position: fixed;
+                        color: white;
+                        font-size: ${Math.random() * 20 + 15}px;
+                        top: -30px;
+                        left: ${Math.random() * 100}vw;
+                        animation: fall ${Math.random() * 5 + 3}s linear infinite;
+                        z-index: 999;
+                        opacity: ${Math.random() * 0.7 + 0.3};
+                        pointer-events: none;
+                    `;
+                    document.body.appendChild(snowflake);
+                    
+                    // Eliminar después de la animación
+                    setTimeout(() => {
+                        if (snowflake.parentNode) {
+                            snowflake.parentNode.removeChild(snowflake);
+                        }
+                    }, 8000);
+                }, i * 200);
+            }
+            
+            // Agregar keyframes para animación
+            if (!document.querySelector('#snow-animation')) {
+                const style = document.createElement('style');
+                style.id = 'snow-animation';
+                style.textContent = `
+                    @keyframes fall {
+                        0% {
+                            transform: translateY(0) rotate(0deg);
+                        }
+                        100% {
+                            transform: translateY(100vh) rotate(360deg);
+                        }
+                    }
+                `;
+                document.head.appendChild(style);
+            }
+        }
+        
+        // Cerrar modal con ESC
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                document.querySelectorAll('.modal-overlay').forEach(modal => modal.remove());
+            }
+        });
+    </script>
+</body>
+</html>
