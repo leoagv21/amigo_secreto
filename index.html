@@ -835,6 +835,9 @@ body {
     }
 }
 
+
+
+
 /* =========================================== */
 /* MÓVILES PEQUEÑOS (iPhone SE, etc) */
 /* =========================================== */
@@ -1187,6 +1190,7 @@ body {
             setInterval(actualizarReloj, 1000);
             startPolling();
             iniciarContadorEntrega();
+            setTimeout(mostrarNotificacionInicial, 1500);
         });
 
         function startPolling() {
@@ -1709,6 +1713,72 @@ body {
                 document.querySelectorAll('.modal-overlay').forEach(modal => modal.remove());
             }
         });
+
+        // ============================================
+        // MODAL DE ADVERTENCIA (CUENTA REGRESIVA)
+        // ============================================
+        function mostrarNotificacionInicial() {
+            const ahora = new Date();
+            const añoActual = ahora.getFullYear();
+            // Configura aquí la fecha: (Año, Mes-1, Día). 11 es Diciembre.
+            let fechaEntrega = new Date(añoActual, 11, 12); 
+            
+            if (ahora > fechaEntrega) {
+                fechaEntrega.setFullYear(añoActual + 1);
+            }
+
+            const diferencia = fechaEntrega - ahora;
+            
+            // Solo mostramos si falta tiempo positivo
+            if (diferencia > 0) {
+                const dias = Math.floor(diferencia / (1000 * 60 * 60 * 24));
+                const horas = Math.floor((diferencia % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutos = Math.floor((diferencia % (1000 * 60 * 60)) / (1000 * 60));
+
+                const modalHTML = `
+                    <div class="modal-overlay" style="z-index: 9999; backdrop-filter: blur(4px);">
+                        <div class="modal-content" style="max-width: 450px; text-align: center; border-top: 8px solid #e74c3c; animation: pulse 0.5s;">
+                            
+                            <div style="margin-bottom: 15px;">
+                                <i class="fas fa-bullhorn" style="font-size: 3em; color: #e74c3c;"></i>
+                            </div>
+
+                            <h2 style="color: #2c3e50; font-size: 1.8em; margin-bottom: 10px; font-weight: 800;">
+                                ¡ATENCIÓN EQUIPO!
+                            </h2>
+                            
+                            <p style="font-size: 1.1em; color: #555; margin-bottom: 20px;">
+                                El Amigo Secreto se acerca peligrosamente...
+                            </p>
+
+                            <div style="background: #fff5f5; border: 2px dashed #e74c3c; border-radius: 15px; padding: 20px; margin-bottom: 25px;">
+                                <div style="font-size: 0.8em; text-transform: uppercase; letter-spacing: 1px; color: #7f8c8d; margin-bottom: 5px;">Tiempo Restante</div>
+                                
+                                <div style="color: #c0392b; font-family: monospace, sans-serif;">
+                                    <div style="font-size: 3.5em; font-weight: 900; line-height: 1;">${dias}</div>
+                                    <div style="font-size: 1em; font-weight: bold; margin-bottom: 5px;">DÍAS</div>
+                                    <div style="font-size: 1.2em; border-top: 1px solid rgba(0,0,0,0.1); padding-top: 5px;">
+                                        ${horas}h : ${minutos}m
+                                    </div>
+                                </div>
+                            </div>
+
+                            <button onclick="this.closest('.modal-overlay').remove()" class="btn btn-primary" style="width: 100%; justify-content: center; padding: 15px; font-size: 1.1em; background: #e74c3c; box-shadow: 0 4px 15px rgba(231, 76, 60, 0.4);">
+                                <i class="fas fa-check-double"></i> ¡Entendido, ya lo compré!
+                            </button>
+                            
+                            <button onclick="this.closest('.modal-overlay').remove()" style="background:none; border:none; color:#999; margin-top:15px; cursor:pointer; font-size:0.9em; text-decoration:underline;">
+                                Aún no lo compro (cerrar)
+                            </button>
+                        </div>
+                    </div>
+                `;
+
+                const modalDiv = document.createElement('div');
+                modalDiv.innerHTML = modalHTML;
+                document.body.appendChild(modalDiv);
+            }
+        }
     </script>
 </body>
 </html>
