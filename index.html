@@ -615,182 +615,227 @@ body {
 }
 
 /* =========================================== */
-/* ULTIMATE MOBILE FIX - ADAPTACIÓN TOTAL     */
+/* MODO ULTRA COMPACTO - MÓVIL (FINAL)         */
 /* =========================================== */
 
 @media (max-width: 768px) {
-    /* 1. CONTENEDOR FULL PANTALLA */
+    /* 1. ESTRUCTURA BASE SIN BORDES */
     body {
-        padding: 0 !important; /* Quitar padding del body */
+        padding: 0 !important;
         height: 100vh;
-        overflow: hidden; /* Evitar doble scroll */
+        overflow: hidden;
     }
 
     .container {
         width: 100% !important;
         height: 100% !important;
-        max-width: 100% !important;
-        max-height: 100vh !important;
         margin: 0 !important;
-        border-radius: 0 !important; /* Cuadrado perfecto */
-        box-shadow: none !important;
+        border-radius: 0 !important;
         display: flex;
         flex-direction: column;
+        max-width: 100vw !important;
     }
 
-    /* 2. HEADER COMPACTO */
+    /* 2. HEADER MINIMALISTA (Muy delgado) */
     .main-header {
-        padding: 15px !important;
-        flex-shrink: 0;
-        text-align: center;
+        padding: 8px 10px !important; /* Mínimo padding */
+        min-height: auto;
     }
 
     .header-content h1 {
-        font-size: 1.4em !important; /* Título más pequeño */
-        margin-bottom: 5px;
+        font-size: 1.1em !important; /* Título pequeño */
+        margin: 0 !important;
+        line-height: 1.1;
     }
 
     .header-content .subtitle {
-        font-size: 0.8em !important;
-        display: block; /* Asegurar que se vea */
-    }
-    
-    /* Ocultar el icono gigante de fondo en móvil para que no estorbe */
-    .main-header::before {
-        display: none; 
+        font-size: 0.7em !important;
+        margin-top: 2px !important;
+        margin-bottom: 0 !important;
+        opacity: 0.9;
     }
 
-    /* 3. ESTADÍSTICAS EN CUADRÍCULA (Ahorra espacio) */
+    .main-header::before { display: none; } /* Sin icono de fondo */
+
+    /* 3. PANEL SUPERIOR (Estadísticas diminutas) */
     .top-panel {
-        padding: 10px !important;
-        gap: 10px !important;
-        background: #f4f4f4;
+        padding: 8px !important;
+        gap: 6px !important;
+        background: #f0f0f0;
     }
 
     .stats-container {
         display: grid;
-        grid-template-columns: 1fr 1fr; /* 2 columnas */
-        gap: 8px;
+        grid-template-columns: 1fr 1fr 1fr; /* 3 columnas en una fila */
+        gap: 5px;
         width: 100%;
-    }
-
-    /* Hacer que la tarjeta de "Días para entrega" ocupe todo el ancho */
-    .stat-card:last-child {
-        grid-column: span 2; 
+        margin: 0 !important;
     }
 
     .stat-card {
-        padding: 8px !important;
-        min-width: 0 !important; /* Evita desbordamiento */
-        flex: none !important;
+        padding: 6px 4px !important;
+        min-width: 0 !important;
+        border-radius: 8px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        border-top-width: 3px !important; /* Línea de color más fina */
     }
+    
+    /* Ajuste especial para que quepan los 3 en fila */
+    .stat-card:last-child { grid-column: auto; } 
 
     .stat-number {
-        font-size: 1.5em !important;
+        font-size: 1.1em !important; /* Número pequeño */
+        margin-bottom: 0 !important;
     }
 
     .stat-label {
-        font-size: 0.7em !important;
+        font-size: 0.6em !important;
+        line-height: 1;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        max-width: 100%;
     }
 
-    /* 4. BOTONES GRANDES (FÁCIL DE TOCAR) */
+    /* 4. BOTONES COMPACTOS */
     .controls {
         display: grid;
-        grid-template-columns: 1fr 1fr; /* 2 botones por fila */
-        gap: 8px;
+        grid-template-columns: 1fr 1fr;
+        gap: 6px;
         width: 100%;
-        margin-top: 5px;
+        margin-top: 2px;
     }
 
     .btn {
         width: 100% !important;
-        padding: 12px 5px !important; /* Menos padding lateral */
-        font-size: 0.8em !important;
+        padding: 8px 4px !important;
+        font-size: 0.75em !important;
+        min-height: 32px !important; /* Botón bajito */
         min-width: 0 !important;
-        white-space: normal !important; /* Permitir 2 líneas de texto */
-        line-height: 1.1;
-        height: 50px; /* Altura fija táctil */
+        border-radius: 8px;
+        height: auto;
     }
+    
+    .btn i { font-size: 0.9em; margin-right: 4px; }
 
-    /* 5. ÁREA DE CONTENIDO Y TARJETAS */
+    /* 5. CONTENIDO Y TARJETAS (El cambio más grande) */
     .main-content {
-        padding: 10px !important;
-        background: rgba(255,255,255,0.5); /* Ligeramente transparente para ver fondo */
+        padding: 8px !important;
+        background: rgba(255,255,255,0.6);
     }
 
     .cards-grid {
         display: flex !important;
         flex-direction: column;
-        gap: 15px;
-        padding-bottom: 80px; /* Espacio para el botón flotante */
+        gap: 10px; /* Menos espacio entre tarjetas */
+        padding-bottom: 60px;
     }
 
     .user-card {
+        padding: 12px !important; /* Tarjeta apretada */
+        margin: 0 !important;
+        border-radius: 12px;
+        border-top-width: 4px;
         min-height: auto !important;
-        margin-bottom: 0 !important;
-        padding: 15px !important;
-    }
-
-    .user-name {
-        font-size: 1.3em !important;
-        padding-right: 40px; /* Espacio para el número */
     }
 
     .card-number {
-        width: 35px !important;
-        height: 35px !important;
-        font-size: 1em !important;
-        top: 15px !important;
-        right: 15px !important;
+        width: 25px !important; /* Bolita de número pequeña */
+        height: 25px !important;
+        font-size: 0.8em !important;
+        top: 10px !important;
+        right: 10px !important;
     }
 
-    /* Ajuste de listas de regalos */
+    .user-name {
+        font-size: 1.1em !important; /* Nombre más pequeño */
+        margin-bottom: 8px !important;
+        padding-bottom: 5px !important;
+        padding-right: 30px;
+    }
+
+    /* Secciones internas (Regalos, talla, etc) */
+    .section {
+        margin-bottom: 8px !important;
+        padding: 8px !important; /* Menos relleno */
+        background: #f8f9fa;
+    }
+
+    .section-title {
+        font-size: 0.85em !important;
+        margin-bottom: 5px !important;
+    }
+
+    /* Lista de regalos súper compacta */
+    .gift-list {
+        max-height: none !important;
+    }
+
     .gift-item {
-        padding: 10px !important;
-        flex-direction: column; /* Texto arriba, etiqueta abajo */
-        align-items: flex-start !important;
+        padding: 6px 8px !important;
+        margin-bottom: 5px !important;
+        min-height: auto !important;
+        font-size: 0.85em !important;
+        display: flex !important;
+        flex-direction: row !important; /* Volvemos a fila para ahorrar altura */
+        align-items: center !important;
+        gap: 8px;
     }
+
+    .gift-info { padding: 0 !important; }
     
+    .gift-name {
+        -webkit-line-clamp: 2 !important; /* Máximo 2 líneas de texto */
+        line-clamp: 2 !important;
+        font-size: 0.95em;
+        line-height: 1.2;
+    }
+
     .gift-number {
-        margin-top: 5px;
-        font-size: 0.75em !important;
-        align-self: flex-end; /* Alinear etiqueta a la derecha */
-    }
-
-    /* 6. MODALES Y NOTIFICACIONES MÓVILES */
-    .modal-content {
-        width: 90% !important;
-        padding: 20px !important;
-        max-height: 85vh;
-        margin: auto;
-    }
-    
-    /* Ajuste del contador gigante en el modal */
-    .modal-content h2 { font-size: 1.5em !important; }
-    .modal-content span { font-size: 2.5em !important; } /* Número de días más pequeño */
-
-    /* 7. BOTÓN FLOTANTE MÁS ARRIBA */
-    .fullscreen-btn {
-        bottom: 80px !important; /* Subirlo para que no tape el footer si hay scroll */
-        width: 45px !important;
-        height: 45px !important;
-        font-size: 1.2em !important;
-        opacity: 0.8;
-    }
-    
-    /* Ocultar footer en móvil si ocupa mucho espacio, o hacerlo muy pequeño */
-    .footer {
-        padding: 10px !important;
+        padding: 2px 6px !important;
         font-size: 0.7em !important;
+        height: auto;
     }
-    .footer-info { display: none; } /* Ocultar info extra en móvil */
-}
 
-/* PEQUEÑO AJUSTE PARA IPHONES MUY PEQUEÑOS (SE/5S) */
-@media (max-width: 360px) {
-    .header-content h1 { font-size: 1.1em !important; }
-    .stat-number { font-size: 1.2em !important; }
-    .btn { font-size: 0.7em !important; }
+    /* Talla y Color en una misma línea visual si es posible */
+    .color-box {
+        width: 20px !important;
+        height: 20px !important;
+    }
+    
+    .no-preference {
+        padding: 8px !important;
+        font-size: 0.85em !important;
+        margin-top: 5px;
+    }
+
+    /* Footer casi invisible */
+    .footer {
+        padding: 5px !important;
+        font-size: 0.6em !important;
+    }
+    .footer p { margin-top: 2px; }
+    .timestamp { padding: 4px 10px; font-size: 0.9em; }
+
+    /* Botón flotante */
+    .fullscreen-btn {
+        width: 40px !important;
+        height: 40px !important;
+        bottom: 50px !important;
+        right: 15px !important;
+        font-size: 1em !important;
+    }
+    
+    /* Ajuste de Modal para pantallas pequeñas */
+    .modal-content {
+        padding: 15px !important;
+        width: 95% !important;
+    }
+    .modal-content h2 { font-size: 1.2em !important; }
+    .modal-content p { font-size: 0.9em !important; }
 }
 
 /* =========================================== */
