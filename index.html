@@ -26,7 +26,19 @@
 
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background: linear-gradient(135deg, #1a2980, #26d0ce);
+    
+    /* --- AQUÍ ESTÁ LA MAGIA DEL FONDO --- */
+    /* Capa 1: Un oscurecedor suave (0.4) para que la caja blanca resalte */
+    /* Capa 2: La imagen de fondo navideña */
+    background: 
+        linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)),
+        url('https://images.unsplash.com/photo-1576919228236-a097c32a5888?q=80&w=2500&auto=format&fit=crop');
+    
+    /* Propiedades para que la imagen se vea perfecta */
+    background-size: cover;       /* Cubre toda la pantalla */
+    background-position: center;  /* Centra la imagen */
+    background-attachment: fixed; /* Efecto elegante: el fondo se queda quieto al bajar */
+    
     min-height: 100vh;
     padding: 20px;
     color: #333;
@@ -1639,28 +1651,28 @@ body {
             window.print();
         }
         
-        function modoNavidad() {
+function modoNavidad() {
             modoNavidadActivo = !modoNavidadActivo;
             const body = document.body;
             const header = document.querySelector('.main-header');
+            const btn = event.target; // Capturamos el botón que se clickeó
             
             if (modoNavidadActivo) {
-                body.style.background = 'linear-gradient(135deg, #1a5276, #145a32)';
+                // ACTIVAR NIEVE EXTRA Y CABECERA ROJA
                 header.style.background = 'linear-gradient(to right, #c0392b, #e74c3c)';
+                agregarNieve(); // Tu función de nieve que ya tienes
                 
-                agregarNieve();
-                
-                event.target.innerHTML = '<i class="fas fa-home"></i> MODO NORMAL';
-                event.target.style.background = '#27ae60';
+                btn.innerHTML = '<i class="fas fa-home"></i> MODO SIMPLE';
+                btn.style.background = '#27ae60';
                 
             } else {
-                body.style.background = 'linear-gradient(135deg, #1a2980, #26d0ce)';
+                // VOLVER AL ESTADO "NORMAL" (Que ahora tiene el fondo bonito)
                 header.style.background = 'linear-gradient(to right, #2c3e50, #3498db)';
                 
                 document.querySelectorAll('.snowflake').forEach(snow => snow.remove());
                 
-                event.target.innerHTML = '<i class="fas fa-tree"></i> MODO NAVIDAD';
-                event.target.style.background = '#f39c12';
+                btn.innerHTML = '<i class="fas fa-tree"></i> MODO NAVIDAD';
+                btn.style.background = '#f39c12';
             }
         }
         
