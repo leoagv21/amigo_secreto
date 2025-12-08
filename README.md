@@ -1,4 +1,4 @@
-# amigo_secreto🎄 Amigo Secreto - Dashboard de Regalos
+🎄 Amigo Secreto - Dashboard de Regalos
 Una aplicación web interactiva y festiva para gestionar la lista de deseos del juego "Amigo Secreto". Esta aplicación funciona como un panel público en tiempo real, conectándose directamente a una hoja de cálculo de Google (Google Sheets) para mostrar los participantes y sus preferencias de regalos.
 
 Demo en vivo: https://amigo-secreto-xi-ruddy.vercel.app/
