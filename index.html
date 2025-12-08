@@ -62,14 +62,17 @@ body {
 
 /* HEADER PRINCIPAL (LOGO Y TÍTULO) */
 .main-header {
-    background: linear-gradient(to right, #2c3e50, #3498db);
+    /* Degradado Rojo Navidad */
+    background: linear-gradient(135deg, #8E0E00, #E52D27); 
     color: white;
     padding: 25px 30px;
     position: relative;
     overflow: hidden;
     flex-shrink: 0;
     z-index: 10;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+    /* Borde dorado decorativo en la parte inferior */
+    border-bottom: 5px solid #FFD700; 
 }
 
 .main-header::before {
@@ -425,9 +428,11 @@ body {
 .footer {
     text-align: center;
     padding: 20px;
-    background: var(--dark);
-    color: white;
-    border-top: 1px solid rgba(255,255,255,0.1);
+    /* Rojo oscuro (tipo vino) para el final */
+    background: #570804; 
+    color: #ffecb3; /* Texto color crema suave */
+    /* Borde dorado decorativo en la parte superior */
+    border-top: 5px solid #FFD700;
     flex-shrink: 0;
 }
 
@@ -646,11 +651,15 @@ body {
         line-height: 1.3;
     }
     
-    .main-header::before {
-        font-size: 120px !important;
-        top: -30px;
-        right: -20px;
-    }
+.main-header::before {
+    content: "🎄"; /* Puedes cambiarlo por 🎁 si prefieres */
+    position: absolute;
+    font-size: 200px;
+    opacity: 0.15; /* Un poco más visible sobre el rojo */
+    top: -50px;
+    right: -20px;
+    transform: rotate(15deg);
+}
     
     /* PANEL SUPERIOR - Organizado verticalmente */
     .top-panel {
@@ -1652,29 +1661,19 @@ body {
         }
         
 function modoNavidad() {
-            modoNavidadActivo = !modoNavidadActivo;
-            const body = document.body;
-            const header = document.querySelector('.main-header');
-            const btn = event.target; // Capturamos el botón que se clickeó
-            
-            if (modoNavidadActivo) {
-                // ACTIVAR NIEVE EXTRA Y CABECERA ROJA
-                header.style.background = 'linear-gradient(to right, #c0392b, #e74c3c)';
-                agregarNieve(); // Tu función de nieve que ya tienes
-                
-                btn.innerHTML = '<i class="fas fa-home"></i> MODO SIMPLE';
-                btn.style.background = '#27ae60';
-                
-            } else {
-                // VOLVER AL ESTADO "NORMAL" (Que ahora tiene el fondo bonito)
-                header.style.background = 'linear-gradient(to right, #2c3e50, #3498db)';
-                
-                document.querySelectorAll('.snowflake').forEach(snow => snow.remove());
-                
-                btn.innerHTML = '<i class="fas fa-tree"></i> MODO NAVIDAD';
-                btn.style.background = '#f39c12';
-            }
-        }
+    modoNavidadActivo = !modoNavidadActivo;
+    const btn = event.target;
+    
+    if (modoNavidadActivo) {
+        agregarNieve(); // Solo activa la nieve
+        btn.innerHTML = '<i class="fas fa-snowflake"></i> DETENER NIEVE';
+        btn.style.background = '#3498db'; // Azul hielo
+    } else {
+        document.querySelectorAll('.snowflake').forEach(snow => snow.remove());
+        btn.innerHTML = '<i class="fas fa-magic"></i> ACTIVAR NIEVE';
+        btn.style.background = '#f39c12';
+    }
+}
         
         function agregarNieve() {
             for (let i = 0; i < 30; i++) {
