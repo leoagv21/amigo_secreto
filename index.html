@@ -582,37 +582,7 @@ body {
     margin: 0 auto;
 }
 
-/* IMPRESIÓN */
-@media print {
-    body {
-        background: white !important;
-        overflow: visible !important;
-    }
-    
-    .container {
-        box-shadow: none !important;
-    }
-    
-    .btn, .fullscreen-btn {
-        display: none !important;
-    }
-    
-    .cards-grid {
-        overflow: visible !important;
-        max-height: none !important;
-        grid-template-columns: repeat(2, 1fr) !important;
-    }
-    
-    .main-content {
-        overflow: visible !important;
-        max-height: none !important;
-    }
-    
-    .gift-list {
-        max-height: none !important;
-        overflow: visible !important;
-    }
-}
+
 
 /* =========================================== */
 /* MODO ULTRA COMPACTO - MÓVIL (FINAL)         */
@@ -1073,9 +1043,7 @@ body {
                 <button class="btn btn-primary" onclick="cargarDatos()">
                     <i class="fas fa-sync-alt"></i> ACTUALIZAR LISTA
                 </button>
-                <button class="btn btn-success" onclick="imprimirLista()">
-                    <i class="fas fa-print"></i> IMPRIMIR LISTA
-                </button>
+
                 <button class="btn btn-info" onclick="irAlFormulario()">
                     <i class="fas fa-edit"></i> IR AL FORMULARIO
                 </button>
@@ -1582,9 +1550,7 @@ body {
             document.getElementById('fechaHora').textContent = fechaHora;
         }
         
-        function imprimirLista() {
-            window.print();
-        }
+
         
 function modoNavidad() {
     modoNavidadActivo = !modoNavidadActivo;
